@@ -34,5 +34,9 @@
 		  from event_attend
 		 where userId = #{userEmail} 
 	</select>
+	<select id="userEventAttendDelete" parameterType="string">
+		delete from event_attend
+		 where userId = #{userEmail} 
+	</select>
 	
 </mapper>

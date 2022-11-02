@@ -129,5 +129,5 @@ public class UserController {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 }

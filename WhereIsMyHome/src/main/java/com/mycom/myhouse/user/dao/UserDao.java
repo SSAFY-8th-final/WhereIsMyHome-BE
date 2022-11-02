@@ -15,4 +15,5 @@ public interface UserDao {
 	int userDelete(String userEmail);
 	UserDto login(String userEmail);
 	List<EventDto> userEventAttendList(String userEmail);
+	void userEventAttendDelete(String userEmail);
 }
