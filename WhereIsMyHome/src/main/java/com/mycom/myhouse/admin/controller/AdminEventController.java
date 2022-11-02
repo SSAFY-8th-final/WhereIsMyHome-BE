@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mycom.myhouse.admin.dto.EventDto;
-import com.mycom.myhouse.admin.dto.EventParamDto;
-import com.mycom.myhouse.admin.dto.EventResultDto;
-import com.mycom.myhouse.admin.service.EventService;
+import com.mycom.myhouse.admin.service.AdminEventService;
+import com.mycom.myhouse.event.dto.EventDto;
+import com.mycom.myhouse.event.dto.EventParamDto;
+import com.mycom.myhouse.event.dto.EventResultDto;
 import com.mycom.myhouse.user.dto.UserDto;
 
 @RestController
 public class AdminEventController {
 
 	@Autowired
-	EventService service;
+	AdminEventService service;
 	
-	private final int SUCCESS = 1;
+	private final String SUCCESS = "success";
 	
 	// limit, offset, searchWord
 	@GetMapping(value="/admins/events")

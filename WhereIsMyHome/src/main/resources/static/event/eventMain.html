@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +19,6 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
 	integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
 	crossorigin="anonymous"></script>
-
-
 
 <!-- JavaScript -->
 <script
@@ -217,7 +214,7 @@
 	</div>
 
 
-	<!-- <script src="/js/util.js"></script> -->
+	<script src="/js/util.js"></script>
 	<script>
 		var OFFSET = 0;
 		var SEARCH_WORD = '';
@@ -229,11 +226,8 @@
 		var TOTAL_LIST_ITEM_COUNT = 0; // 총 건수
 		
    		window.onload = function() {
-
-			makeListHtmlEventHandler();
-   			
-   			//eventList(); // 백엔드를 갔다와서 수행, 비동기 통신이므로 비동기 통신 하자마자 makeListHtmlEventHandler 클릭하면 반응없음   			
-   			// makeListHtmlEventHandler();
+			
+   			eventList();
    			
    			document.querySelector("#btnSearchWord").onclick = function() {
    				SEARCH_WORD = document.querySelector("#inputSearchWord").value;
@@ -324,9 +318,6 @@
 			
 		}
    
-		
-		
-		
    		// GET
    		async function eventList() {
    			let url = '/admins/events';
@@ -341,7 +332,7 @@
    				let data = await response.json();
    				console.log( data )
    				
-   				makeListHtml( data );
+   				makeListHtml( data.list );
    				
    				TOTAL_LIST_ITEM_COUNT = data.count;
    			} catch( error ) {
@@ -368,11 +359,11 @@
    				let readCount = "0";
    	   			
    				listHtml += 
-   					`<tr style="cursor:pointer" data-eventKey=\${eventKey}>
-   				<td>\${eventKey}</td>
-   				<td>\${title}</td>
-   				<td>\${regDtStr}</td>
-   				<td>\${readCount}</td>
+   					`<tr style="cursor:pointer" data-eventKey=${eventKey}>
+		   				<td>${eventKey}</td>
+		   				<td>${title}</td>
+		   				<td>${regDtStr}</td>
+		   				<td>${readCount}</td>
    					</tr>`;
    			});
    			
@@ -405,25 +396,17 @@
            let fetchOptions = {
               method: 'GET',
            }
-           
-		   document.querySelector("#eventDetailModal").setAttribute("data-eventKey", 2);
-           
-		   let modal = new bootstrap.Modal(
-				document.querySelector("#eventDetailModal")
-		   );
-		   
-		   modal.show();
 
-        //   try {
-        //       let response = await fetch( url + urlParams, fetchOptions );
-        //       let data = await response.json();
-        //       console.log( data )
-        //       makeDetailHtml( data );
+          try {
+              let response = await fetch( url , fetchOptions );
+              let data = await response.json();
+              console.log( data )
+              makeDetailHtml( data.dto );
 
-        //   } catch( error ) {
-        //       console.log(error);
-        //       alertify.error('글 조회 과정에서 문제가 생겼습니다.');
-        //   }
+          } catch( error ) {
+              console.log(error);
+              alertify.error('글 조회 과정에서 문제가 생겼습니다.');
+          }
       }
    		
    		function makeDetailHtml( detail ){
@@ -553,8 +536,8 @@
             // parameter
             let urlParams = new URLSearchParams({
           		eventKey: eventKey,	
-            	title : title,
-          	  	content: content
+            	name : title,
+          	  	url: content
             });
             // fetch options
             let fetchOptions = {
@@ -562,10 +545,11 @@
                 body: urlParams
             }
             
-            let url = "/admins/events";
+            let url = "/admins/events/" + eventKey;
 				try{
 				   let response = await fetch( url , fetchOptions );
 	              let data = await response.json(); // json => javascript object <= JSON.parse()
+	              console.log(data);
 	              if( data.result == "success" ){ // login.jsp => eventMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
 	            	  alertify.success("글이 수정되었습니다.")
 	            	  eventList();
@@ -582,10 +566,14 @@
         async function eventDelete() {
         	let eventKey = document.querySelector("#eventDetailModal").getAttribute("data-eventKey");
       	
-            let url = "/admins/events" + eventKey;
+            let url = "/admins/events/" + eventKey;
+         	// fetch options
+            let fetchOptions = {
+                method: "Delete"
+            }
             
 			try{
-			   let response = await fetch( url );
+			   let response = await fetch( url , fetchOptions );
               let data = await response.json(); // json => javascript object <= JSON.parse()
               if( data.result == "success" ){ // login.jsp => eventMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
             	  alertify.success("글이 삭제되었습니다.")

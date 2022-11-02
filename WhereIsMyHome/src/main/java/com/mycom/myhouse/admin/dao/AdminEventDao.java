@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mycom.myhouse.admin.dto.EventDto;
-import com.mycom.myhouse.admin.dto.EventParamDto;
+import com.mycom.myhouse.event.dto.EventDto;
+import com.mycom.myhouse.event.dto.EventParamDto;
+
 
 @Mapper
-public interface EventDao {
+public interface AdminEventDao {
 
 	// limit, offset
 	List<EventDto> eventList(EventParamDto eventDto);
