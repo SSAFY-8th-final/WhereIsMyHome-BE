@@ -20,23 +20,36 @@
 - 이벤트 삭제 완료
 <img width="946" alt="관리자_이벤트삭제후" src="https://user-images.githubusercontent.com/83645234/199529952-2e601991-8729-4972-9ab3-6d3b7e2fc94d.png">
 
-
-
-# 백엔드 구현 완료
 ## user
-- 로그인/로그아웃
-- 회원가입
-- 회원정보보기
+- 로그인
+![image](https://user-images.githubusercontent.com/83645234/199530976-a603a968-5ffe-45c5-8be4-4d60542d37b3.png)
+로그인 성공시 메인페이지로 이동
+![image](https://user-images.githubusercontent.com/83645234/199531236-ec6a2fc0-45cf-40a0-b3d1-4dcb95f274a0.png)
+
+
+- 회원가입 <br>
+![image](https://user-images.githubusercontent.com/83645234/199531678-79990ce0-58e2-4e51-9da0-e4885c97c5d8.png)
+
+
+
+# 백엔드 완료
+프론트엔드 구현 중입니다
+
+## user
+- 회원정보보기 <br>
+![image](https://user-images.githubusercontent.com/83645234/199532451-ec647091-002a-43a0-8558-dc0f8fa0e3d8.png)
 
 ## event
-- 진행 중인 이벤트 보기
-- 이벤트 참여
+- 진행 중인 이벤트 보기 <br>
+![image](https://user-images.githubusercontent.com/83645234/199533123-a121424e-6dfd-462a-91e0-1f89571472a8.png)
 
-## admin
-- 이벤트 CRUD
+- 이벤트 참여 <br>
+![image](https://user-images.githubusercontent.com/83645234/199532933-9904b4cb-11ee-4ef5-99bb-991fbddd6dea.png)
 
+# 구현중
+## user
+- 로그아웃
 
-# 백엔드 구현 중
 ## map
 - 아파트 거래기록 검색 (동별 / 검색어)
 - 아파트 정보 상세보기
