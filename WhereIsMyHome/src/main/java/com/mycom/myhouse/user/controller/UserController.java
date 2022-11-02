@@ -27,7 +27,8 @@ public class UserController {
 	@Autowired
 	UserService service;
 	
-	private final int SUCCESS = 1;
+	private final String SUCCESS = "success";
+	private final String FAIL = "fail";
 	
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(UserDto dto, HttpSession session){
@@ -64,7 +65,7 @@ public class UserController {
 		UserResultDto userResultDto = service.register(userDto);
 		
 		Map<String, String> map = new HashMap<>();
-		if(userResultDto.getResult() == SUCCESS) {
+		if(userResultDto.getResult().equals(SUCCESS)) {
 			map.put("result", "success");
 			return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 		}else {
@@ -78,7 +79,7 @@ public class UserController {
 		System.out.println("detail : userEmail : " + userEmail);
 		UserResultDto userResultDto = service.userDetail(userEmail);
 		
-		if(userResultDto.getResult() == SUCCESS) {
+		if(userResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,7 +89,7 @@ public class UserController {
 	public ResponseEntity<UserResultDto> userUpdate(UserDto userDto, HttpSession session){
 		UserResultDto UserResultDto = service.userUpdate(userDto);
 		
-		if(UserResultDto.getResult() == SUCCESS) {
+		if(UserResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<UserResultDto>(UserResultDto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<UserResultDto>(UserResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -107,7 +108,7 @@ public class UserController {
 		
 		UserResultDto userResultDto = service.userDelete(userDto);
 		
-		if(userResultDto.getResult() == SUCCESS) {
+		if(userResultDto.getResult().equals(SUCCESS)) {
 			map.put("result", "success");
 			return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
 		}else {
@@ -123,7 +124,7 @@ public class UserController {
 		
 		EventResultDto eventResultDto = service.userEventAttendList(userDto.getUserEmail());
 		
-		if(eventResultDto.getResult() == SUCCESS) {
+		if(eventResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.INTERNAL_SERVER_ERROR);

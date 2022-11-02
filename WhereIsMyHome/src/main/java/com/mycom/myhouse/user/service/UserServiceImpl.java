@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserDao dao;
 
-	private final int SUCCESS = 1;
-	private final int FAIL = -1;
+	private final String SUCCESS = "success";
+	private final String FAIL = "fail";
 
 //	@Override
 //	public List<UserDto> list() {
@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserResultDto register(UserDto dto) {
 		UserResultDto userResultDto = new UserResultDto();
-		System.out.println("UserServiceImple - register");
 		try {
 			dao.register(dto);
 			userResultDto.setResult(SUCCESS);

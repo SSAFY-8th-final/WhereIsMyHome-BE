@@ -1,4 +1,4 @@
-package com.mycom.myhouse.admin.dto;
+package com.mycom.myhouse.event.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +15,6 @@ public class EventParamDto {
 	// 이벤트 상세
 	private int eventKey;
 	private int userSeq;
+	private String userEmail;
 	
 }

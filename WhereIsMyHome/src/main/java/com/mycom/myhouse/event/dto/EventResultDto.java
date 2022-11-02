@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class EventResultDto {
 
-	private int result;
+	private String result;
 	private EventDto dto;  // 게시글 상세
 	private List<EventDto> list;  // 게시글 목록
 	private int count;  // 게시글 총 건수

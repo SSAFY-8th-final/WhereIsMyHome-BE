@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserResultDto {
-	private int result;	// 결과
+	private String result;	// 결과
 	private UserDto UserDto;	// 유저 하나
 	private List<UserDto> list;	// 유저 목록
 	
