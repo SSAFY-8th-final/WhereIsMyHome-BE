@@ -1,0 +1,224 @@
+* {
+    font-family: 'Nanum Gothic Coding', monospace;
+    box-sizing: border-box;
+  }
+  .container-fluid {
+        display: flex;
+        flex-direction: column;
+    }
+   
+    header {
+      display:flex;
+      position:relative;
+      width:100%;
+    }
+    .header-main {
+      width:100%;
+      /* color:whitesmoke; */
+    }
+    .header-main-img{
+      position: relative;
+      width:100%;
+      height:70vh;
+    }
+    .header-main-img-black{
+      width:100%;
+      height:70vh;
+      background-color: black;
+      position:absolute;
+      top:0px;
+      opacity: 0.5;
+    }
+    .header-menu{
+      position:absolute;
+      top:10px;
+      width:100%;
+    }
+    .header-menu-right{
+        display:flex;
+        top:20px;
+        justify-content:flex-end;
+        margin:auto;
+    }
+    .header-menu a {
+      text-decoration: none;
+      color:black;
+      padding: 10px;
+      /* background-color: rgb(170, 170, 170); */
+      color:whitesmoke;
+      margin-right:20px;
+      /* border-radius: 5px; */
+    }
+    /* .logo {
+      width: 100px;
+      height: 200px;
+      border-radius: 30px;
+    } */
+
+    main {
+      margin: auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .main-top{
+      position:relative;
+      width:100%;
+      margin: auto;
+      color:black;
+      font-size: 30px;
+    }
+    .main-top img{
+      opacity: 0.5;
+    }
+    
+    .main-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 50px;
+      margin-top:30px;
+      
+      /* background-color: rgb(255, 250, 235); */
+    }
+    
+    .main-button{
+      /* background-color: rgb(170, 170, 170); */
+   
+      text-align: center;
+      padding:10px;
+      border-radius: 5px;
+    }
+   	.main-bottom button {
+    margin-top: 0px;
+	}
+    .main-bottom button a{
+    	list-style:none;
+    	text-decoration:none;
+    }
+    
+    .main-title{
+      position:absolute;
+      top: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 32px;
+      /* background-color: white; */
+      color:white;
+      opacity: 0.9;
+      width:100%;
+      
+    }
+
+  
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      height: 40vh;
+      margin-bottom: 30vh;
+    }
+    .section-bottom{
+      display: flex;
+    }
+    .footer-left{
+      display: flex;
+      margin-right: 50px;
+      border: 15px solid rgb(247, 247, 247);
+      border-radius: 10px;
+      padding:15px;
+    }
+    .footer-left img{
+      margin-right: 30px;
+    }
+    .footer-left-content{
+      margin-right: 50px;
+    }
+    .footer-right{
+      margin-left: 30px;
+      border: 15px solid rgb(247, 247, 247);
+      border-radius: 10px;
+      padding:15px;
+
+    }
+    .footer-right ul{
+      padding:0px;
+    }
+    
+    .footer-right h5{
+      text-align: center;
+      align-content: center;
+    }
+    .footer-right li{
+      list-style: none;
+      color:grey;
+    }
+
+    /*  */
+    .footer-card {
+      display:flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      position:relative;
+      width:1000px;
+      height:350px;
+      margin:36px;
+      border-radius: 10px;
+      border: 1px solid rgb(226, 226, 226);
+    }
+    .footer-card img {
+      position:absolute;
+      width:inherit;
+      height: inherit;
+      border-radius: inherit;
+    }
+    .footer-card-dark {
+      background-color: black;
+      width:inherit;
+      height: inherit;
+      border-radius: inherit;
+      position:absolute;
+      top:0px;
+      opacity: 0.7;
+    }
+    .footer-card-title {
+      position:absolute;
+      font-size: large;
+      color:white;
+      
+    }
+    .footer-card-content{
+      display: flex;
+      flex-wrap: wrap;
+      position:absolute;
+      top:60%;
+      justify-content: center;
+      color:rgb(255, 216, 18);
+      font-size: medium;
+      margin:15px;
+    }
+    .footer-card-content p{
+      margin: 0px 5px 0px 5px;
+    }
+        #searchInput{
+   
+        border:1px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        text-align: center;
+   		height:40px;
+   		width:200px;
+   		
+      }
+		#searchInputText{
+			text-align: center;
+			height:50px;
+		}
+	#eventSetting a{
+		text-decoration: none;
+		color: black;
+	}
+   
