@@ -108,7 +108,6 @@
             document.querySelector("#btnLogin").onclick = function () {
                //유효성 검사 => Post
               if (validate()) {
-            	  console.log("여기")
                 login();
               } else {
                 //유효성 검사 실패에 대한 UI 처리
@@ -116,12 +115,8 @@
               }
             };
             
-        
-            
           };
           
-       
-    
           function validate() {
             let isUserEmailValid = false;
             let isUserPasswordValid = false;
@@ -161,34 +156,13 @@
             let response = await fetch("/login",fetchOptions);
             let data = await response.json();
             if(data.result=="success"){// login.jsp => boardMain.jsp
-              window.location.href="/map/mapMain.html"
+              window.location.href="/index.html"
             }
             else if(data.result == 'fail'){
             	alertify.alert("오류","아이디 또는 패스워드를 확인하세요");
             }
           }
     
-        </script>
-        <script>
-          document.querySelector("#logout").onclick = function(){
-            logout();
-          }
-          
-          async function logout(){
-          let url = "/logout";
-          
-          try{
-              let response = await fetch( url ); 
-              let data = await response.json(); 
-              if( data.result == "fail"){ 
-                window.location.href = "/login.html";
-              }else if( data.result == "fail"){
-                alertify.alert("오류",'로그아웃 과정에서 오류가 발생했습니다.');
-              }            	
-          }catch(error){
-            alertify.alert("오류",'로그아웃 과정에서 오류가 발생했습니다.');
-          }
-          }
         </script>
 </body>
 </html>

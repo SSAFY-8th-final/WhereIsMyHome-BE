@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.myhouse.admin.dao.CodeDao">
-	<select id="getCodeList" parameterType="string" resultType="com.mycom.myhouse.user.dto.UserDto">
-		select user_seq, user_name, user_password, user_email, user_profile_image_url, user_register_date
-		from users
-		where user_email = #{userEmail}
+	<select id="codeList" parameterType="string" resultType="com.mycom.myhouse.admin.dto.CodeDto">
+		select child_code, child_name
+		from common_code
+		where parent_code = #{parentCode}
 	</select>
-	
 </mapper>

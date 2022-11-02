@@ -143,9 +143,10 @@
             let value = (gugun_select.options[gugun_select.selectedIndex].value);
             dongList(Number(value));
         }
-     
-        dd();
         
+        document.querySelector("#btnRegister").addEventListener("click", btnRegisterClickListener);
+     
+        codeList();
     }
 
     //GET
@@ -182,11 +183,9 @@
         //makeListHtmlEventHandler();
     }
     
-    
-    
-    async function dd(){
-        let url = '/code/grade';
-        let urlParams = '?code=001';
+    async function codeList(){
+        let url = '/admins/grades';
+        let urlParams = '?parentCode=001';
 
         let fetchOptions = {
             method: 'GET',
@@ -218,47 +217,46 @@
     	document.querySelector("#radio").innerHTML = listHtml;
     	
     	//makeListHtmlEventHandler();
-    }
-      document.querySelector("#btnRegister").addEventListener("click", btnRegisterClickListener);
+     }
+     
 
-      function btnRegisterClickListener(e) {
-        const userEmail = document.querySelector("#userEmail").value;
-        const userPassword = document.querySelector("#userPassword").value;
-        const userName = document.querySelector("#userName").value;
-        let interestCode = document.querySelector("#dong-select").value;
-        let commonName = document.querySelector("input[name='code']:checked").value;
-        
-        console.log(commonName);
-        
-           register(userEmail, userPassword, userName, interestCode, commonName); 
-        }
+     function btnRegisterClickListener(e) {
+		const userEmail = document.querySelector("#userEmail").value;
+		const userPassword = document.querySelector("#userPassword").value;
+		const userName = document.querySelector("#userName").value;
+		let interestCode = document.querySelector("#dong-select").value;
+		let commonName = document.querySelector("input[name='code']:checked").value;
+       
+		console.log(commonName);
+		register(userEmail, userPassword, userName, interestCode, commonName); 
+     }
       
 
-      async function register(userEmail, userPassword, userName, interestCode, commonName) {
-        const urlParams = new URLSearchParams({
-          userEmail,
-          userPassword,
-          userName,
-          interestCode,
-          commonName
-       });
-
-        const fetchOptions = {
-          method: "POST",
-          body: urlParams,
-        };
-
-        const response = await fetch("/register", fetchOptions);
-        const data = await response.json(); // json => javascript object <= JSON.parse()
-        console.log(data);
-        if (data.result === "success") {
-          // login.jsp => boardMain.jsp로 페이지 이동 (새로운 페이지(html...) 요청)
-          window.location.href = "/login.html";
-  
-        } else if (data.result === "fail") {
-          alertify.alert("오류","중복된 이메일이 존재합니다.");
-        } 
-      }
+     async function register(userEmail, userPassword, userName, interestCode, commonName) {
+       const urlParams = new URLSearchParams({
+	         userEmail,
+	         userPassword,
+	         userName,
+	         interestCode,
+	         commonName
+	      });
+	
+	       const fetchOptions = {
+	         method: "POST",
+	         body: urlParams,
+	       };
+	
+	       const response = await fetch("/register", fetchOptions);
+	       const data = await response.json(); // json => javascript object <= JSON.parse()
+	       console.log(data);
+	       if (data.result === "success") {
+	         // login.jsp => boardMain.jsp로 페이지 이동 (새로운 페이지(html...) 요청)
+	         window.location.href = "/login.html";
+	 
+	       } else if (data.result === "fail") {
+	         alertify.alert("오류","중복된 이메일이 존재합니다.");
+	       } 
+     }
      
     </script>
   </body>

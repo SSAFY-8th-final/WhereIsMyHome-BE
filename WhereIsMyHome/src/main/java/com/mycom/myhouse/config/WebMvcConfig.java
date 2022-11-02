@@ -21,7 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor)
 				.addPathPatterns("/**")  // 로그인을 해야지만 접근 가능
-				.excludePathPatterns("/", "/index.html", "/login.html", "/register.html")
+				.excludePathPatterns("/login.html", "/register.html")
 				.excludePathPatterns("/login/**", "/register/**", "/css/**", "/js/**", "/img/**");
 	}
 	
