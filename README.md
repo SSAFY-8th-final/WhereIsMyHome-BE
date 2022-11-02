@@ -3,16 +3,22 @@
 
 ## 관리자
 - 이벤트 목록
-![관리자_이벤트목록](/uploads/573875cddb23044189555e37475efa6f/관리자_이벤트목록.png)
+<img width="950" alt="관리자_이벤트목록" src="https://user-images.githubusercontent.com/83645234/199529812-d3dfabdb-ac0c-4d20-976a-b36084d7d9c5.png">
+
+- 이벤트 상세
+<img width="952" alt="관리자_이벤트상세" src="https://user-images.githubusercontent.com/83645234/199530138-a6059da6-e375-4f33-8104-5df64fbef059.png">
 
 - 이벤트 등록
-![관리자_이벤트등록](/uploads/e28d5eb4508cf46d4f0ff4fbe2c5a4c0/관리자_이벤트등록.png)
+<img width="955" alt="관리자_이벤트등록" src="https://user-images.githubusercontent.com/83645234/199529682-978b5c5e-d574-4d19-9575-d0f25267fdb9.png">
 
 - 이벤트 수정
-![관리자_이벤트수정](/uploads/bfe3d0c839304fb07a6b66b7658254e7/관리자_이벤트수정.png)
+<img width="955" alt="관리자_이벤트수정" src="https://user-images.githubusercontent.com/83645234/199529889-08a79f1e-a24c-42ac-b587-21a941645db8.png">
+
+- 이벤트 삭제
+<img width="953" alt="관리자_이벤트삭제" src="https://user-images.githubusercontent.com/83645234/199530196-0e8ffd2c-0c25-461a-8f7b-3103e2a34a0a.png">
 
 - 이벤트 삭제 완료
-![관리자_이벤트삭제후](/uploads/c3372e16f58575efc7e79f0cad0f972f/관리자_이벤트삭제후.png)
+<img width="946" alt="관리자_이벤트삭제후" src="https://user-images.githubusercontent.com/83645234/199529952-2e601991-8729-4972-9ab3-6d3b7e2fc94d.png">
 
 
 
