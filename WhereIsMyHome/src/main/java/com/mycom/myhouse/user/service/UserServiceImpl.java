@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserDao dao;
 
-	private final int SUCCESS = 1;
-	private final int FAIL = -1;
+	private final String SUCCESS = "success";
+	private final String FAIL = "fail";
 
 //	@Override
 //	public List<UserDto> list() {
@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserResultDto register(UserDto dto) {
 		UserResultDto userResultDto = new UserResultDto();
-		System.out.println("UserServiceImple - register");
 		try {
 			dao.register(dto);
 			userResultDto.setResult(SUCCESS);
@@ -79,10 +78,10 @@ public class UserServiceImpl implements UserService {
 		UserResultDto userResultDto = new UserResultDto();
 
 		try {
-			
+			String userEmail = userDto.getUserEmail();
 			// 삭제 순서
-//	        dao.boardReadCountDelete(boardId);	// 이벤트 참여 삭제
-			dao.userDelete(userDto.getUserEmail()); // 마지막으로 게시판 삭제
+	        dao.userEventAttendDelete(userEmail);	// 이벤트 참여 삭제
+			dao.userDelete(userEmail); // 마지막으로 게시판 삭제
 
 			userResultDto.setResult(SUCCESS);
 
@@ -119,7 +118,7 @@ public class UserServiceImpl implements UserService {
 		EventResultDto eventResultDto = new EventResultDto();
 		try {
 			List<EventDto> list = dao.userEventAttendList(userEmail);
-			eventResultDto.setEventList(list);
+			eventResultDto.setList(list);
 			System.out.println(list);
 			eventResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
@@ -128,4 +127,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return eventResultDto;
 	}
+
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myhouse.event.dao.EventDao">
+
+	<select id="eventList" parameterType="com.mycom.myhouse.event.dto.EventParamDto" resultType="com.mycom.myhouse.event.dto.EventDto">
+		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		from event
+		order by eventKey desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="eventDetail" parameterType="int" resultType="com.mycom.myhouse.event.dto.EventDto">
+		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		from event
+		where eventKey = #{eventKey}
+	</select>
+	
+	<insert id="eventAttend" parameterType="com.mycom.myhouse.event.dto.EventParamDto">
+		insert into event_attend ( eventKey, userId, attendDateTime )
+		values ( #{eventKey}, #{userEmail}, now() )
+
+	</insert>
+	
+</mapper>
