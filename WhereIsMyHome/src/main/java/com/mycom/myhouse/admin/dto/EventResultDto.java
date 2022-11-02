@@ -2,7 +2,6 @@ package com.mycom.myhouse.admin.dto;
 
 import java.util.List;
 
-import com.mycom.myhouse.event.dto.EventDto;
 
 import lombok.Getter;
 import lombok.Setter;

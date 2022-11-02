@@ -45,26 +45,26 @@ public class LoginInterceptor implements HandlerInterceptor {
 		// #3 page 요청과 async 요청에 대한 처리를 따로 구성
 		
 		// async 요청인지 확인
-//		String async = request.getHeader("async");  // client가 헤더에 담아서 보내야 함
-//		HttpSession session = request.getSession();
-//		UserDto userDto = (UserDto) session.getAttribute("userDto");
-//		
-//		
-//		if(userDto == null) {
-//			// page, async 나눠서 처리
-//			if("true".equals(async)) {
-//				// json으로 session timeout => login 이동하라는 내용을 만들어서 보낸다.
-//				Gson gson = new Gson();
-//				JsonObject jsonObject = new JsonObject();
-//				jsonObject.addProperty("result", "login");
-//				String jsonStr = gson.toJson(jsonObject);
-//				response.getWriter().write(jsonStr);
-//			} else {
-//				response.sendRedirect("/login");
-//			}
-//			
-//			return false;
-//		}
+		String async = request.getHeader("async");  // client가 헤더에 담아서 보내야 함
+		HttpSession session = request.getSession();
+		UserDto userDto = (UserDto) session.getAttribute("userDto");
+		
+		
+		if(userDto == null) {
+			// page, async 나눠서 처리
+			if("true".equals(async)) {
+				// json으로 session timeout => login 이동하라는 내용을 만들어서 보낸다.
+				Gson gson = new Gson();
+				JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("result", "login");
+				String jsonStr = gson.toJson(jsonObject);
+				response.getWriter().write(jsonStr);
+			} else {
+				response.sendRedirect("/login");
+			}
+			
+			return false;
+		}
 		
 		return true;
 	}

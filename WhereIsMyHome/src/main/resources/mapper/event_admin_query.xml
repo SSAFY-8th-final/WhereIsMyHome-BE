@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.myhouse.admin.dao.EventDao">
 
-	<select id="eventList" parameterType="map" resultType="com.mycom.myhouse.admin.dto.eventDto">
+	<select id="eventList" parameterType="map" resultType="com.mycom.myhouse.admin.dto.EventDto">
 		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
 		from event
 		order by eventKey desc
@@ -13,13 +13,13 @@
 		select count(*) from event
 	</select>
 	
-	<select id="eventDetail" parameterType="map" resultType="com.mycom.myhouse.admin.dto.eventDto">
+	<select id="eventDetail" parameterType="map" resultType="com.mycom.myhouse.admin.dto.EventDto">
 		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
 		from event
 		where eventKey = #{eventKey}
 	</select>
 	
-	<select id="eventListSearchWord" parameterType="map" resultType="com.mycom.myhouse.admin.dto.eventDto">
+	<select id="eventListSearchWord" parameterType="map" resultType="com.mycom.myhouse.admin.dto.EventDto">
 		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
 		from event
          where name like concat('%', #{searchWord} ,'%')

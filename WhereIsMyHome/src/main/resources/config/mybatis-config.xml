@@ -9,5 +9,7 @@
 
 	<mappers>
 		<mapper resource="mapper/code_query.xml"></mapper>
+		<mapper resource="mapper/event_admin_query.xml"></mapper>
+		<mapper resource="mapper/user_query.xml"></mapper>
 	</mappers>
 </configuration>

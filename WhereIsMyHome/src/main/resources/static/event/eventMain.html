@@ -86,8 +86,8 @@
 					<th scope="col">조회수</th>
 				</tr>
 			</thead>
-			<tbody id="boardTbody">
-				<tr style="cursor:pointer" data-boardId=1>
+			<tbody id="eventTbody">
+				<tr style="cursor:pointer" data-eventKey=1>
 					<td>1</td>
 					<td>title</td>
 					<td>regDtStr</td>
@@ -100,14 +100,9 @@
 
 		<button class="btn btn-primary" type="button" id="btnInsertPage">
 			글쓰기</button>
-
-
 	</div>
-
-
-
 	<!-- Modal insert -->
-	<div class="modal fade" id="boardInsertModal" tabindex="-1"
+	<div class="modal fade" id="eventInsertModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -126,7 +121,7 @@
 							<label for="contentInsert" class="form-label">내용</label>
 							<textarea class="form-control" id="contentInsert" rows="10"></textarea>
 						</div>
-						<button id="btnBoardInsert" type="button"
+						<button id="btnEventInsert" type="button"
 							class="btn btn-sm btn-primary float-end">등록</button>
 
 					</form>
@@ -139,7 +134,7 @@
 
 
 	<!-- Modal Detail -->
-	<div class="modal fade" id="boardDetailModal" tabindex="-1"
+	<div class="modal fade" id="eventDetailModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -153,7 +148,7 @@
 						<tbody>
 							<tr>
 								<td>글 번호</td>
-								<td id="boardIdDetail">#</td>
+								<td id="eventIdDetail">#</td>
 							</tr>
 							<tr>
 								<td>제목</td>
@@ -178,9 +173,9 @@
 						</tbody>
 					</table>
 
-					<button id="btnBoardUpdateForm" type="button"
+					<button id="btnEventUpdateForm" type="button"
 						class="btn btn-sm btn-primary float-end">수정</button>
-					<button id="btnBoardDeleteConfirm" type="button"
+					<button id="btnEventDeleteConfirm" type="button"
 						class="btn btn-sm btn-warning float-end">삭제</button>
 
 				</div>
@@ -191,7 +186,7 @@
 
 
 	<!-- Modal update-->
-	<div class="modal fade" id="boardUpdateModal" tabindex="-1"
+	<div class="modal fade" id="eventUpdateModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -210,7 +205,7 @@
 							<label for="contentUpdate" class="form-label">내용</label>
 							<textarea class="form-control" id="contentUpdate" rows="10"></textarea>
 						</div>
-						<button id="btnBoardUpdate" type="button"
+						<button id="btnEventUpdate" type="button"
 							class="btn btn-sm btn-primary float-end">수정</button>
 
 					</form>
@@ -237,7 +232,7 @@
 
 			makeListHtmlEventHandler();
    			
-   			//boardList(); // 백엔드를 갔다와서 수행, 비동기 통신이므로 비동기 통신 하자마자 makeListHtmlEventHandler 클릭하면 반응없음   			
+   			//eventList(); // 백엔드를 갔다와서 수행, 비동기 통신이므로 비동기 통신 하자마자 makeListHtmlEventHandler 클릭하면 반응없음   			
    			// makeListHtmlEventHandler();
    			
    			document.querySelector("#btnSearchWord").onclick = function() {
@@ -245,7 +240,7 @@
    				// 초기화
    				OFFSET = 0;
    				CURRENT_PAGE_INDEX = 1;
-   				boardList();
+   				eventList();
    			}
    			
    			// insert page
@@ -257,29 +252,29 @@
    				
    				
    				let modal = new bootstrap.Modal(
-   					document.querySelector("#boardInsertModal")
+   					document.querySelector("#eventInsertModal")
    				);
    				
    				modal.show();
    			}
    			
    			// insert
-			document.querySelector("#btnBoardInsert").onclick = function() {
+			document.querySelector("#btnEventInsert").onclick = function() {
    				
 				
 				if(validateInsert()){
-					boardInsert();
+					eventInsert();
 				}else{
 					alertify.error("입력을 확인해 주세요.");
 				}
 			};
 			
 			// delete
-			document.querySelector("#btnBoardDeleteConfirm").onclick = function() {
+			document.querySelector("#btnEventDeleteConfirm").onclick = function() {
 				alertify.confirm("삭제 확인", "글을 삭제하시겠습니까?", 
 						function(){
 							// ok
-							boardDelete();
+							eventDelete();
 
 						},
 						function(){
@@ -288,33 +283,33 @@
 			};
 		
 			// update
-			document.querySelector("#btnBoardUpdateForm").onclick = function() {
+			document.querySelector("#btnEventUpdateForm").onclick = function() {
 			
-				// detail => update 글 상세 내용을 복사 ( key 인 boardId 를 복사 )
+				// detail => update 글 상세 내용을 복사 ( key 인 eventKey 를 복사 )
 				// detail modal 닫고 update modal 을 띄운다.
-				let boardId = document.querySelector("#boardDetailModal").getAttribute("data-boardId");
-	   			document.querySelector("#boardUpdateModal").setAttribute("data-boardId", boardId);
+				let eventKey = document.querySelector("#eventDetailModal").getAttribute("data-eventKey");
+	   			document.querySelector("#eventUpdateModal").setAttribute("data-eventKey", eventKey);
 	
 	   			document.querySelector("#titleUpdate").value = document.querySelector("#titleDetail").innerHTML;
 	   			document.querySelector("#contentUpdate").value = document.querySelector("#contentDetail").innerHTML;
 	   			
 	   			let modalDetail = new bootstrap.Modal(
-	   					document.querySelector("#boardDetailModal")
+	   					document.querySelector("#eventDetailModal")
 	   				);
 	   				
 	   			modalDetail.hide();
 	   			
 	   			let modalUpdate = new bootstrap.Modal(
-	   					document.querySelector("#boardUpdateModal")
+	   					document.querySelector("#eventUpdateModal")
 	   				);
 	   				
 	   			modalUpdate.show();
 	   			
    			} 
 			
-			document.querySelector("#btnBoardUpdate").onclick = function() {
+			document.querySelector("#btnEventUpdate").onclick = function() {
 				if(validateUpdate()){
-					boardUpdate();
+					eventUpdate();
 				}else{
 					alertify.error("입력을 확인해 주세요.");
 				}
@@ -333,8 +328,8 @@
 		
 		
    		// GET
-   		async function boardList() {
-   			let url = '/board/boardList';
+   		async function eventList() {
+   			let url = '/admins/events';
    			let urlParams = '?limit=' + LIST_ROW_COUNT + '&offset=' + OFFSET  + '&searchWord=' + SEARCH_WORD;
    			//let urlParams = `?limit=${LIST_ROW_COUNT}&offset=${OFFSET}`; // jsp EL표기법과 javascript es6 literal template와 충돌.
 			let fetchOptions = {
@@ -345,9 +340,10 @@
    				let response = await fetch( url + urlParams, fetchOptions );
    				let data = await response.json();
    				console.log( data )
+   				
    				makeListHtml( data );
    				
-   				
+   				TOTAL_LIST_ITEM_COUNT = data.count;
    			} catch( error ) {
    				console.log(error);
    				alertify.error('글 조회 과정에서 문제가 생겼습니다.');
@@ -364,7 +360,7 @@
    				
    				console.log(el);
    				
-   				let boardId = el.eventKey;
+   				let eventKey = el.eventKey;
    				let userName = el.name;
    				let title = el.name;
    				let regDt = el.registerDateTime;
@@ -372,79 +368,51 @@
    				let readCount = "0";
    	   			
    				listHtml += 
-   					`<tr style="cursor:pointer" data-boardId=\${boardId}>
-   				<td>\${boardId}</td>
+   					`<tr style="cursor:pointer" data-eventKey=\${eventKey}>
+   				<td>\${eventKey}</td>
    				<td>\${title}</td>
    				<td>\${regDtStr}</td>
    				<td>\${readCount}</td>
    					</tr>`;
    			});
    			
-   			document.querySelector("#boardTbody").innerHTML = listHtml;
+   			document.querySelector("#eventTbody").innerHTML = listHtml;
    			makeListHtmlEventHandler();
-   			boardListTotalCnt();
+   			
+   			makePaginationHtml( LIST_ROW_COUNT, PAGE_LINK_COUNT, CURRENT_PAGE_INDEX, TOTAL_LIST_ITEM_COUNT,  "paginationWrapper" );
    		}
    		
    		
    		function makeListHtmlEventHandler() {
-   			document.querySelectorAll("#boardTbody tr").forEach( el => {
+   			document.querySelectorAll("#eventTbody tr").forEach( el => {
    				el.onclick = function() {
-   					let boardId = this.getAttribute("data-boardId");
-   					boardDetail(boardId);
+   					let eventKey = this.getAttribute("data-eventKey");
+   					eventDetail(eventKey);
    				}
    			})
-
-   			
    		}
    		
-   		
-		async function boardListTotalCnt() {
-   			let url = '/board/boardListTotalCnt';
-   			let urlParams = '?searchWord=' + SEARCH_WORD;
-   			//let urlParams = `?limit=${LIST_ROW_COUNT}&offset=${OFFSET}`; // jsp EL표기법과 javascript es6 literal template와 충돌.
-			let fetchOptions = {
-   					method: 'GET',
-   			}
-   			
-   			try {
-   				let response = await fetch( url + urlParams, fetchOptions );
-   				let data = await response.json();
-   				console.log( data )
-   				TOTAL_LIST_ITEM_COUNT = data.totalCnt;
-   			
-   				console.log(LIST_ROW_COUNT);
-   				console.log(PAGE_LINK_COUNT);
-   				console.log(CURRENT_PAGE_INDEX);
-   				console.log(TOTAL_LIST_ITEM_COUNT);
-   				
-   				
-   				makePaginationHtml( LIST_ROW_COUNT, PAGE_LINK_COUNT, CURRENT_PAGE_INDEX, TOTAL_LIST_ITEM_COUNT,  "paginationWrapper" );
-   				
-   			} catch( error ) {
-   				console.log(error);
-   				alertify.error('글 조회 과정에서 문제가 생겼습니다.');
-   			}
-   		}
    		
    		function movePage(pageIndex){
    			OFFSET = (pageIndex - 1) * LIST_ROW_COUNT;
    			CURRENT_PAGE_INDEX = pageIndex;
-   			boardList();
+   			eventList();
    		}
    		
-   	  async function boardDetail(boardId) {
-          let url = '/board/boardDetail';
-          let urlParams = '?boardId=' + boardId;
+   	  async function eventDetail(eventKey) {
+          let url = '/admins/events/' + eventKey;
 
            let fetchOptions = {
               method: 'GET',
-              }
-			  document.querySelector("#boardDetailModal").setAttribute("data-boardId", 2);
-			  let modal = new bootstrap.Modal(
-					document.querySelector("#boardDetailModal")
-				);
-				console.log(2)
-			modal.show();
+           }
+           
+		   document.querySelector("#eventDetailModal").setAttribute("data-eventKey", 2);
+           
+		   let modal = new bootstrap.Modal(
+				document.querySelector("#eventDetailModal")
+		   );
+		   
+		   modal.show();
 
         //   try {
         //       let response = await fetch( url + urlParams, fetchOptions );
@@ -462,7 +430,7 @@
 		
    			console.log(detail);
    			
-			let boardId = detail.eventKey;
+			let eventKey = detail.eventKey;
 			let userName = detail.registerId;
 			let title = detail.name;
 			let content = detail.name;
@@ -474,8 +442,8 @@
 			let sameUser = detail.sameUser;
  	   	
 			
-			document.querySelector("#boardDetailModal").setAttribute("data-boardId", boardId);
-   	    	document.querySelector("#boardIdDetail").innerHTML = boardId;
+			document.querySelector("#eventDetailModal").setAttribute("data-eventKey", eventKey);
+   	    	document.querySelector("#eventIdDetail").innerHTML = eventKey;
    	    	document.querySelector("#titleDetail").innerHTML = title;
    	    	document.querySelector("#contentDetail").innerHTML = content;
    	    	document.querySelector("#userNameDetail").innerHTML = userName;
@@ -484,7 +452,7 @@
    	    	
    	
    	 		let modal = new bootstrap.Modal(
-					document.querySelector("#boardDetailModal")
+					document.querySelector("#eventDetailModal")
 				);
 				
 			modal.show();
@@ -542,16 +510,15 @@
 
         }
         
-        async function boardInsert() {
+        async function eventInsert() {
         	
-        		console.log('boardInsert....');
         	  let title = document.querySelector("#titleInsert").value;
               let content = document.querySelector("#contentInsert").value;
   
               // parameter
               let urlParams = new URLSearchParams({
-            	  title : title,
-            	  content: content
+            	  name : title,
+            	  url: content
               });
               // fetch options
               let fetchOptions = {
@@ -559,13 +526,13 @@
                   body: urlParams
               }
               
-              let url = "/board/boardInsert";
+              let url = "/admins/events";
   				try{
   				   let response = await fetch( url , fetchOptions );
   	              let data = await response.json(); // json => javascript object <= JSON.parse()
-  	              if( data.result == "success" ){ // login.jsp => boardMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
+  	              if( data.result == "success" ){ // login.jsp => eventMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
   	            	  alertify.success("글이 등록되었습니다.")
-  	            	  boardList();
+  	            	  eventList();
   	              }else if( data.result == "fail" ){
   	                  alertify.error('글 등록 과정에서 오류가 발생했습니다.');
   	              }
@@ -578,30 +545,30 @@
         
 		///////////////////////////////////////
 
-        async function boardUpdate() {
-        	let boardId = document.querySelector("#boardUpdateModal").getAttribute("data-boardId");
+        async function eventUpdate() {
+        	let eventKey = document.querySelector("#eventUpdateModal").getAttribute("data-eventKey");
       		let title = document.querySelector("#titleUpdate").value;
             let content = document.querySelector("#contentUpdate").value;
 
             // parameter
             let urlParams = new URLSearchParams({
-          		boardId: boardId,	
+          		eventKey: eventKey,	
             	title : title,
           	  	content: content
             });
             // fetch options
             let fetchOptions = {
-                method: "POST",
+                method: "PUT",
                 body: urlParams
             }
             
-            let url = "/board/boardUpdate";
+            let url = "/admins/events";
 				try{
 				   let response = await fetch( url , fetchOptions );
 	              let data = await response.json(); // json => javascript object <= JSON.parse()
-	              if( data.result == "success" ){ // login.jsp => boardMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
+	              if( data.result == "success" ){ // login.jsp => eventMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
 	            	  alertify.success("글이 수정되었습니다.")
-	            	  boardList();
+	            	  eventList();
 	              }else if( data.result == "fail" ){
 	                  alertify.error('글 수정 과정에서 오류가 발생했습니다.');
 	              }
@@ -612,18 +579,17 @@
          
     	  }
         
-        async function boardDelete() {
-        	let boardId = document.querySelector("#boardDetailModal").getAttribute("data-boardId");
+        async function eventDelete() {
+        	let eventKey = document.querySelector("#eventDetailModal").getAttribute("data-eventKey");
       	
-            let url = "/board/boardDelete";
-            let urlParams = "?boardId=" + boardId;
+            let url = "/admins/events" + eventKey;
             
 			try{
-			   let response = await fetch( url + urlParams );
+			   let response = await fetch( url );
               let data = await response.json(); // json => javascript object <= JSON.parse()
-              if( data.result == "success" ){ // login.jsp => boardMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
+              if( data.result == "success" ){ // login.jsp => eventMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
             	  alertify.success("글이 삭제되었습니다.")
-            	  boardList();
+            	  eventList();
               }else if( data.result == "fail" ){
                   alertify.error('글 삭제 과정에서 오류가 발생했습니다.');
               }
@@ -642,8 +608,8 @@
 			try{
 				   let response = await fetch( url );
 	              let data = await response.json(); // json => javascript object <= JSON.parse()
-	              if( data.result == "success" ){ // login.jsp => boardMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
-	            	window.location.href = "/jsp/login.jsp";
+	              if( data.result == "success" ){ // login.jsp => eventMain.jsp로 페이지 이동 ( 새로운 페이지(html....) 요청)
+	            	window.location.href = "/login.html";
 	              }else if( data.result == "fail" ){
 	                  alertify.error('로그아웃 과정에서 오류가 발생했습니다.');
 	              }

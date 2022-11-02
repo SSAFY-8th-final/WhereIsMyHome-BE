@@ -1,8 +1,8 @@
 package com.mycom.myhouse.admin.service;
 
+import com.mycom.myhouse.admin.dto.EventDto;
 import com.mycom.myhouse.admin.dto.EventParamDto;
 import com.mycom.myhouse.admin.dto.EventResultDto;
-import com.mycom.myhouse.event.dto.EventDto;
 
 public interface EventService {
 	

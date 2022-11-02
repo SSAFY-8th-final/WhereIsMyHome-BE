@@ -5,12 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mycom.myboard.dto.BoardDto;
-import com.mycom.myboard.dto.BoardResultDto;
 import com.mycom.myhouse.admin.dao.EventDao;
+import com.mycom.myhouse.admin.dto.EventDto;
 import com.mycom.myhouse.admin.dto.EventParamDto;
 import com.mycom.myhouse.admin.dto.EventResultDto;
-import com.mycom.myhouse.event.dto.EventDto;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -67,7 +65,8 @@ public class EventServiceImpl implements EventService {
 		
 		try {
 			EventDto dto = dao.eventDetail(eventDto);
-			
+			eventResultDto.setDto(dto);
+			eventResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
 			eventResultDto.setResult(FAIL);
@@ -78,20 +77,47 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public EventResultDto eventInsert(EventDto dto) {
-		// TODO Auto-generated method stub
-		return null;
+		EventResultDto eventResultDto = new EventResultDto();
+		
+		try {
+			dao.eventInsert(dto);
+			eventResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			eventResultDto.setResult(FAIL);
+		}
+		
+		return eventResultDto;
 	}
 
 	@Override
 	public EventResultDto eventUpdate(EventDto dto) {
-		// TODO Auto-generated method stub
-		return null;
+		EventResultDto eventResultDto = new EventResultDto();
+		
+		try {
+			dao.eventUpdate(dto);
+			eventResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			eventResultDto.setResult(FAIL);
+		}
+		
+		return eventResultDto;
 	}
 
 	@Override
 	public EventResultDto eventDelete(int eventKey) {
-		// TODO Auto-generated method stub
-		return null;
+		EventResultDto eventResultDto = new EventResultDto();
+		
+		try {
+			dao.eventDelete(eventKey);
+			eventResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			eventResultDto.setResult(FAIL);
+		}
+		
+		return eventResultDto;
 	}
 
 	
