@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myhouse.admin.dao.EventDao">
+
+	<select id="eventList" parameterType="map" resultType="com.mycom.myhouse.admin.dto.eventDto">
+		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		from event
+		order by eventKey desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="eventListTotalCount" resultType="int">
+		select count(*) from event
+	</select>
+	
+	<select id="eventDetail" parameterType="map" resultType="com.mycom.myhouse.admin.dto.eventDto">
+		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		from event
+		where eventKey = #{eventKey}
+	</select>
+	
+	<select id="eventListSearchWord" parameterType="map" resultType="com.mycom.myhouse.admin.dto.eventDto">
+		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		from event
+         where name like concat('%', #{searchWord} ,'%')
+         order by b.eventKey desc
+         limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="eventListSearchWordTotalCount" parameterType="string" resultType="int">
+		select count(*) from event where name like concat('%', #{searchWord} ,'%')
+	</select>
+	
+	<insert id="eventInsert" parameterType="map">
+		insert into event (name, startDateTime, endDateTime, url, statusCode, registerId, registerDateTime)
+		values (#{name}, #{startDateTime}, #{endDateTime}, "", "001", #{registerId}, now())
+	</insert>
+	
+	<update id="eventUpdate" parameterType="map">
+		UPDATE event
+		SET name = #{name} 
+		WHERE eventKey = #{eventKey}
+	</update>
+	
+	<delete id="eventDelete" parameterType="int">
+		delete from event where eventKey = #{eventKey}
+	</delete>
+</mapper>
