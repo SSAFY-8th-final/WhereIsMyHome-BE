@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.myhouse.user.dao.UserDao">
-	<insert id="userRegister" parameterType="com.mycom.myboard.dto.UserDto">
-		insert into users (user_name, user_password, user_email, user_profile_image_url, user_register_date)
-		values (#{userName}, #{userPassword}, #{userEmail}, '', now() )
+	<insert id="register" parameterType="com.mycom.myhouse.user.dto.UserDto">
+		insert into users (user_name, user_password, user_email, user_profile_image_url, user_register_date, interest_code, grade_code)
+		values (#{userName}, #{userPassword}, #{userEmail}, '', now() , '1111010100', '001')
 	</insert>
+	
+	<select id="userDetail" parameterType="string" resultType="com.mycom.myhouse.user.dto.UserDto">
+		select user_name, user_password, user_email, user_profile_image_url, user_register_date, interest_code, grade_code
+		  from users
+		 where user_email = #{user_email} 
+	</select>
+	
+	<update id="userUpdate" parameterType="com.mycom.myhouse.user.dto.UserDto" >
+			update users
+			   set user_name = #{userName}
+			      ,user_password = #{userPassword}
+			      ,interest_code = #{interestCode}
+		     where user_email = #{userEmail} 		
+	</update>
+	
+	<delete id="userDelete" parameterType="string" >
+			delete from users
+		    where user_email = #{userEmail} 		
+   </delete>
+	<select id="login" parameterType="string" resultType="com.mycom.myhouse.user.dto.UserDto">
+		select user_name, user_password, user_email, user_profile_image_url, user_register_date, interest_code, grade_code
+		  from users
+		 where user_email = #{userEmail} 
+	</select>
+	<select id="userEventAttendList" parameterType="string" resultType="com.mycom.myhouse.event.dto.EventDto">
+		select eventKey, userId, attendDateTime
+		  from event_attend
+		 where userId = #{userEmail} 
+	</select>
+	
 </mapper>
