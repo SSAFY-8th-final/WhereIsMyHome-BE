@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myhouse.map.dao.MapDao"> 
+	
+	<select id="mapGugunList" parameterType="string" resultType="com.mycom.myhouse.map.dto.GugunDto">
+		select code, name
+		  from gugun_code
+		 where sido_code= #{sidoCode}
+	</select>
+	<select id="mapDongList" parameterType="string" resultType="com.mycom.myhouse.map.dto.DongDto">
+		select code, name
+		  from dong_code
+		 where gugun_code= #{gugunCode}
+	</select>
+	
+	<select id="mapHouseList"  parameterType="com.mycom.myhouse.map.dto.MapParamDto" resultType="com.mycom.myhouse.map.dto.HouseDto">
+	  select d.no, d.dong, d.AptName, d.code, d.dealAmount, 
+	  		 d.buildYear, d.dealYear, d.dealMonth, d.dealDay, 
+	  		 d.area, d.floor, d.jibun, d.house_no,
+			   i.lat, i.lng, i.img
+		from housedeal d join houseinfo i
+		where d.AptName = i.AptName
+
+	    <if test="gugunCode!= null and gugunCode!= '' ">
+	        and d.code = #{gugunCode}
+	    </if>
+	    <if test="dong != null and dong != ''">
+	    	and d.dong = #{dong}
+	    </if>
+	    <if test="searchWord != null and searchWord != ''">
+	        and d.AptName like concat('%',#{searchWord},'%')
+	    </if>
+	</select>
+</mapper>

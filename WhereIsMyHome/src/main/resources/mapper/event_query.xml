@@ -5,6 +5,7 @@
 	<select id="eventList" parameterType="com.mycom.myhouse.event.dto.EventParamDto" resultType="com.mycom.myhouse.event.dto.EventDto">
 		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
 		from event
+		where statusCode = '001'
 		order by eventKey desc
 		limit #{limit} offset #{offset}
 	</select>

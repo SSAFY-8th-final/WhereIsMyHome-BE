@@ -11,8 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DongDto {
+public class GugunDto {
 	private String code;
 	private String name;
-	
 }

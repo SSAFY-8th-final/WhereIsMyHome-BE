@@ -1,16 +1,13 @@
-package com.mycom.myhouse.map.dao;
+package com.mycom.myhouse.map.service;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 
 import com.mycom.myhouse.map.dto.DongDto;
 import com.mycom.myhouse.map.dto.GugunDto;
 import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.map.dto.MapParamDto;
 
-@Mapper
-public interface MapDao {
+public interface MapService {
 
 	List<GugunDto> mapGugunList(String sidoCode);
 	List<DongDto> mapDongList(String gugunCode);
