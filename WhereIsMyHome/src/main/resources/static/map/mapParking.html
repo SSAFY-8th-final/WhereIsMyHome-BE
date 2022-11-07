@@ -17,35 +17,15 @@
 	<div id="nav-menu-left">
 		<button class="btn btn-sm btn-outline-secondary" id="homeBtn"><a href="/index.html">Home</a></button>
 	</div>
-
-
+	
         <div class="container"> 
             <div class="row">
                 <h2 style="margin-left: 0.5em;">주차장정보</h2>
                 <hr>
             </div>
             <div id="deal-list" class="row deal-list">
-				
-				<div class="row deal-list-item" data-bs-toggle="modal" data-bs-target="#detail-modal">
-				<div class="row parking-name">\${parkingName}</div>
-				<div class="row parking-addr">\${addr}</div>
-				<div class="row parking-money">기본요금: \${rates}원/ \${timeRate}분</div>
-				<div class="row parking-capacity">\${capacity} 대 주차 가능</div>
-			</div>
-			<div class="row deal-list-item" data-bs-toggle="modal" data-bs-target="#detail-modal">
-				<div class="row parking-name">\${parkingName}</div>
-				<div class="row parking-addr">\${addr}</div>
-				<div class="row parking-money">기본요금: \${rates}원/ \${timeRate}분</div>
-				<div class="row parking-capacity">\${capacity} 대 주차 가능</div>
-			</div>
-			<div class="row deal-list-item" data-bs-toggle="modal" data-bs-target="#detail-modal">
-				<div class="row parking-name">\${parkingName}</div>
-				<div class="row parking-addr">\${addr}</div>
-				<div class="row parking-money">기본요금: \${rates}원/ \${timeRate}분</div>
-				<div class="row parking-capacity">\${capacity} 대 주차 가능</div>
-			</div>
-              
-              </div>
+            	<!-- 주차장 리스트 출력 -->
+            </div>
 
         </div>      
 
@@ -66,13 +46,14 @@
         <div class="row" id="deal-content">  
             <div id="map-wrapper">
                 <div id="map-detail">
-                	<div id="localInfo">dd
+                	<div id="localInfo">
 
                 </div>
             </div>
         </div>
     
 <script type="text/javascript" src="/js/util.js"></script>
+<script type="text/javascript" src="/js/sidePanel.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30825d7ff55d14a818299c266e641081"></script>
 <script>
 
@@ -119,14 +100,13 @@ window.onload = function(){
 
 // 지도에 넣을 데이터 가져오기
 async function getParkingList(){
-	let url = '/parking';
+	let url = '/parking-list';
 	
 	try{
 		let response = await fetch( url);
 		let data = await response.json();
 		makeMapListHtml(data)
 		makeMapMarker( data );
-		
 	}catch( error ){
 		console.log(error);
 		alert('주차장정보 조회 과정에서 문제가 생겼습니다.')
@@ -147,10 +127,10 @@ function makeMapListHtml(list){
 		listHtml += 
 			`
 		 <div class="row deal-list-item" data-bs-toggle="modal" data-bs-target="#detail-modal">
-         <div class="row parking-name">\${parkingName}</div>
-         <div class="row parking-addr">\${addr}</div>
-         <div class="row parking-money">기본요금: \${rates}원/ \${timeRate}분</div>
-         <div class="row parking-capacity">\${capacity} 대 주차 가능</div>
+         <div class="row parking-name">${parkingName}</div>
+         <div class="row parking-addr">${addr}</div>
+         <div class="row parking-money">기본요금: ${rates}원/ ${timeRate}분</div>
+         <div class="row parking-capacity">${capacity} 대 주차 가능</div>
      </div>
 		`;
 		
@@ -174,7 +154,7 @@ function makeMapMarker(list){
 		  return sum + Number(el.lat);
 		}, 0);
 	
-	console.log(latSum)
+// 	console.log(latSum)
 
 	let latAverage = latSum / list.length;
 	
@@ -185,7 +165,7 @@ function makeMapMarker(list){
 	let lngAverage = lngSum / list.length;
 
 	list.forEach(el => {
-		console.log(el.lat + " " + el.lng)
+// 		console.log(el.lat + " " + el.lng)
 	    let imageSize = new kakao.maps.Size(24, 35); 
 	    
 	    // 마커 이미지를 생성합니다    
@@ -201,59 +181,32 @@ function makeMapMarker(list){
 	    
 		
 	})
-	console.log(latAverage + " " + lngAverage)
+// 	console.log(latAverage + " " + lngAverage)
 	map.setCenter(new kakao.maps.LatLng(latAverage, lngAverage)); 
 	map.setLevel(5);
 }
 
 
-    		document.querySelector("#logout").onclick = function(){
-    			logout();
-    		}
+//    		document.querySelector("#logout").onclick = function(){
+//    			logout();
+//    		}
 
-		async function logout(){
-        	let url = "/logout";
+// 		async function logout(){
+//         	let url = "/logout";
         	
-        	try{
-                let response = await fetch( url ); 
-                let data = await response.json(); 
-                if( data.result == "fail"){ 
-                  window.location.href = "/login";
-                }else if( data.result == "fail"){
-              	  alert('로그아웃 과정에서 오류가 발생했습니다.');
-                }            	
-            }catch(error){
-            	alert('로그아웃 과정에서 오류가 발생했습니다.');
-            }
-        }
+//         	try{
+//                 let response = await fetch( url ); 
+//                 let data = await response.json(); 
+//                 if( data.result == "fail"){ 
+//                   window.location.href = "/login";
+//                 }else if( data.result == "fail"){
+//               	  alert('로그아웃 과정에서 오류가 발생했습니다.');
+//                 }            	
+//             }catch(error){
+//             	alert('로그아웃 과정에서 오류가 발생했습니다.');
+//             }
+//         }
 	
-////////////////SIDE PANEL//////////////////
-function openNav() {
-  document.getElementById("mySidepanel").style.transform = "translateX(0%)";
-  document.getElementById("localInfoTest").classList.remove('bi-chevron-compact-right');
-  document.getElementById("localInfoTest").classList.add('bi-chevron-compact-left');
-  document.querySelector("#localInfoTest > path").setAttribute('d',  "M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z")
-}
-
-function closeNav() {
-  document.getElementById("mySidepanel").style.transform = "translateX(-100%)";
-  document.getElementById("localInfoTest").classList.remove('bi-chevron-compact-left');
-  document.getElementById("localInfoTest").classList.add('bi-chevron-compact-right');
-  document.querySelector("#localInfoTest > path").setAttribute('d', "M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z")
-}
-
-var openCloseNum = 0;
-function sidePannelControll(){
-	if(openCloseNum == 0){
-		openCloseNum = 1;
-		openNav();
-	}else{
-		openCloseNum = 0;
-		closeNav();
-	}
-}
-
-
 
 </script>
 
