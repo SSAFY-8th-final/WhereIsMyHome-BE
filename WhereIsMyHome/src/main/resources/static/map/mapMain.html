@@ -92,31 +92,7 @@
                         <div class="col-2 mb-2"> 서울 > </div>
                         <div class="col-2 mb-2 me-4">
                         <select id="gugun-select" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option value="11110">종로구</option>
-                          <option value="11140">중구</option>
-                          <option value="11170">용산구</option>
-                          <option  value="11200">성동구</option>
-                          <option  value="11215">광진구</option>
-                          <option  value="11230">동대문구</option>
-                          <option  value="11260">중랑구</option>
-                          <option  value="11290">성북구</option>
-                          <option  value="11305">강북구</option>
-                          <option  value="11320">도봉구</option>
-                          <option  value="11350">노원구</option>
-                          <option value="11380">은평구</option>
-                          <option value="11410">서대문구</option>
-                          <option  value="11440">마포구</option>
-                          <option  value="11470">양천구</option>
-                          <option  value="11500">강서구</option>
-                          <option  value="11530">구로구</option>
-                          <option  value="11545">금천구</option>
-                          <option  value="11560">영등포구</option>
-                          <option  value="11590">동작구</option>
-                          <option  value="11620">관악구</option>
-                          <option  value="11650">서초구</option>
-                          <option  value="11680">강남구</option>
-                          <option  value="11710">송파구</option>
-                          <option  value="11740">강동구</option>
+                           ..
                         </select>
                         </div>
                         <div class="col-2 mb-2 me-4">
@@ -140,7 +116,91 @@
             
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30825d7ff55d14a818299c266e641081"></script>
+<script src="/js/addressSelectBox.js"></script>
+<script src="/js/sidePanel.js"></script>
 <script>
+let houseListArr = [];
+
+window.onload = async function(){
+	let gugun_select = document.querySelector("#gugun-select");
+	await gugunList(11);
+	
+	dongList(Number(gugun_select.options[0].value));
+	
+	gugun_select.onchange = function(){
+		let value = (gugun_select.options[gugun_select.selectedIndex].value);
+		dongList(Number(value));
+
+	}
+	
+	document.querySelector("#search-button").onclick = async function search(){
+		
+		if(validateSearch()){
+			await houseList();
+		} else{
+			alert("검색 범위가 너무 넓습니다");
+		}
+	}
+}
+	// 검색 범위 제한
+	function validateSearch(){
+		let isGugunExist = false;
+		let isDongExist = false;
+		let isSearchInputExist = false;
+		
+		let gugunVal = document.querySelector("#gugun-select").value;
+		let dongVal = document.querySelector("#dong-select").value;
+		let searchVal = document.querySelector("#search-input").value;
+		
+		 if( gugunVal.length > 0 ){
+			 isGugunExist = true;
+	     }
+		 if( dongVal.length > 0 ){
+			 isDongExist = true;
+	     }
+		 if( searchVal.length > 0 ){
+			 isSearchInputExist = true;
+	     }
+		 
+		 if((isGugunExist && isDongExist) ||(isGugunExist && isSearchInputExist))
+			 return true;
+		 
+		 return false;
+	}
+
+	// 거래내역 + 집
+	async function houseList(){
+		let url = '/maps/houses';
+		
+		let gugun_select = document.querySelector("#gugun-select");
+		let gugunCode = (gugun_select.options[gugun_select.selectedIndex].value);
+		
+		let dong = document.querySelector("#dong-select").value;
+		let searchWord = document.querySelector("#search-input").value;
+		
+		let urlParams = '?gugunCode=' + gugunCode + '&dong=' + dong + '&searchWord=' + searchWord;
+		let fetchOptions = {
+			method: 'GET',
+		}
+		
+		try{
+			let response = await fetch( url + urlParams, fetchOptions);
+			let data = await response.json();
+			houseListArr = null;
+			houseListArr = data;
+			console.log(houseListArr);
+			//makeMapListHtml( data );
+			
+		}catch( error ){
+			console.log(error);
+			alert('거래내역 조회 과정에서 문제가 생겼습니다.')
+		}
+	}
+
+
+
+/*------------------------지도--------------------------*/
+
 var mapContainer = document.getElementById('map-detail'), // 지도를 표시할 div  
     mapOption = { 
         center: new kakao.maps.LatLng(37.574516, 126.968867), // 지도의 중심좌표
@@ -208,33 +268,6 @@ for (var i = 0; i < positions.length; i ++) {
     });
 }
 
-
-
-////////////////SIDE PANEL//////////////////
-function openNav() {
-  document.getElementById("mySidepanel").style.transform = "translateX(0%)";
-  document.getElementById("localInfoTest").classList.remove('bi-chevron-compact-right');
-  document.getElementById("localInfoTest").classList.add('bi-chevron-compact-left');
-  document.querySelector("#localInfoTest > path").setAttribute('d',  "M9.224 1.553a.5.5 0 0 1 .223.67L6.56 8l2.888 5.776a.5.5 0 1 1-.894.448l-3-6a.5.5 0 0 1 0-.448l3-6a.5.5 0 0 1 .67-.223z")
-}
-
-function closeNav() {
-  document.getElementById("mySidepanel").style.transform = "translateX(-100%)";
-  document.getElementById("localInfoTest").classList.remove('bi-chevron-compact-left');
-  document.getElementById("localInfoTest").classList.add('bi-chevron-compact-right');
-  document.querySelector("#localInfoTest > path").setAttribute('d', "M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z")
-}
-
-let openCloseNum = 0;
-function sidePannelControll(){
-	if(openCloseNum == 0){
-		openCloseNum = 1;
-		openNav();
-	}else{
-		openCloseNum = 0;
-		closeNav();
-	}
-}
 
 </script>
 
