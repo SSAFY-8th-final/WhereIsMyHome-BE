@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myhouse.sale.dao.SaleDao">
+
+	<select id="saleListDealer" parameterType="com.mycom.myhouse.sale.dto.SaleParamDto" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+		select 	no, dong_code, post_date, sale_amount, move_in_code, move_in_date, sale_type_code, 
+					description, room, bathroom, floor, houseinfo_no, user_email
+		  from 	my_house.housesale
+		 where 	user_email = #{userEmail}
+	</select>
+	
+	<select id="saleDetail" parameterType="int" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+		select 	no, dong_code, post_date, sale_amount, move_in_code, move_in_date, sale_type_code, 
+					description, room, bathroom, floor, houseinfo_no, user_email 
+		  from 	my_house.housesale
+		 where 	no = #{no}
+	</select>
+	
+	<insert id="saleInsert" parameterType="com.mycom.myhouse.sale.dto.SaleDto">
+		insert 	into housesale 
+				( dong_code,address_detail, sale_amount, move_in_code, move_in_date, sale_type_code, 
+					description, room, bathroom, floor, houseinfo_no, user_email )
+		values 	( #{dongCode},#{addressDetail},#{saleAmount}, #{moveInCode}, #{moveInDate}, #{saleTypeCode}, #{description}, #{room}, #{bathroom}, #{floor}, #{houseinfoNo}, #{userEmail})
+		  <selectKey keyProperty="no" resultType="Integer">
+		    select LAST_INSERT_ID()
+		  </selectKey>
+
+	</insert>
+	<delete id="saleDelete" parameterType="int" >
+		delete 	from my_house.housesale
+	     where 	no = #{no}
+   </delete>
+   
+   <update id="saleUpdate" parameterType="com.mycom.myhouse.sale.dto.SaleDto">
+		update 	housesale
+		   set 	address_detail = #{addressDetail},
+		   	   	sale_amount = #{saleAmount},
+		   	   	move_in_code = #{moveInCode},
+		   	   	move_in_date = #{moveInDate},
+		   	   	sale_type_code = #{saleTypeCode},
+		   	   	description = #{description},
+		   	   	room = #{room},
+		   	   	bathroom = #{bathroom},
+				floor = #{floor}
+		   	   
+		 where no = #{no}
+		   and user_email = #{userEmail}
+	</update>
+	
+	
+</mapper>
