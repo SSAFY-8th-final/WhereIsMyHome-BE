@@ -18,6 +18,8 @@ public class UserDto {
 	    private Date userRegisterDate;
 	    private String interestCode;
 	    private String gradeCode;
+	    
+	    private String token;
 		
 	    public void setUserProfileImageUrl(String userProfileImageUrl) {
 	        if( userProfileImageUrl == null || "null".equals(userProfileImageUrl) || "".equals(userProfileImageUrl)) {

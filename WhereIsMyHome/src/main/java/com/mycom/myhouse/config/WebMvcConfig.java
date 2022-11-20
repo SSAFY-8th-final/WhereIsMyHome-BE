@@ -2,10 +2,13 @@ package com.mycom.myhouse.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.mycom.myhouse.common.LoginInterceptor;
+import com.mycom.myhouse.common.JwtInterceptor;
 
 
 @Configuration  // xml 설정을 대신 <- servlet-context.xml의 설정 내용을 대체, interceptor외에 다른 많은 설정 가능
@@ -15,16 +18,39 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	// interceptor 객체 DI
 	
 	@Autowired
-	private LoginInterceptor loginInterceptor;
+	private JwtInterceptor jwtInterceptor;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(loginInterceptor)
-				.addPathPatterns("/**")  // 로그인을 해야지만 접근 가능
-				.excludePathPatterns("/login.html", "/register.html")
-				.excludePathPatterns("/login/**", "/register/**", "/css/**", "/js/**", "/img/**");
+		System.out.println("interceptor");
+		registry.addInterceptor(jwtInterceptor)
+				.addPathPatterns("/mypage", "/sales/**");  // 로그인을 해야지만 접근 가능
 	}
 	
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+//		System.out.println("CORS Setting");
+//		default 설정.
+//		Allow all origins.
+//		Allow "simple" methods GET, HEAD and POST.
+//		Allow all headers.
+//		Set max age to 1800 seconds (30 minutes).
+		System.out.println("corsMapping");
+//		registry.addMapping("/**")
+//		.allowedOrigins("http://localhost:8080", "http://localhost:8081", "http://localhost:5500")
+//		.allowedHeaders("*")
+//			.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
+//					HttpMethod.DELETE.name(), HttpMethod.HEAD.name(), HttpMethod.OPTIONS.name(),
+//					HttpMethod.PATCH.name())
+////			.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"),
+//			.allowedOriginPatterns(CorsConfiguration.ALL)
+//			.maxAge(1800);
+        registry.addMapping("/**")
+        .allowedMethods(CorsConfiguration.ALL)
+        .allowedHeaders(CorsConfiguration.ALL)
+        .allowedOriginPatterns(CorsConfiguration.ALL)
+        .allowCredentials(true);
+	}
 }
 
 // interface는 추상메소드만으로 구성, 바디를 가지는 default 메소드를 가질 수 없었음

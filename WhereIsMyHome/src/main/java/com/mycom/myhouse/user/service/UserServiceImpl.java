@@ -97,14 +97,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserResultDto login(UserDto dto) {
 		UserResultDto userResultDto = new UserResultDto();
-
+		System.out.println("userService - " + dto.getUserEmail());
 		try {
 			UserDto userDto = dao.login(dto.getUserEmail());
+			System.out.println(userDto);
 			// userDto는 테이블에서 조회한 데이터가 포함
 			// dto는 client가 전송한 데이터가 포함
 			if (userDto != null && userDto.getUserPassword().equals(dto.getUserPassword())) {
 				userResultDto.setUserDto(userDto);
 				userResultDto.setResult(SUCCESS);
+				System.out.println("userService - login 성공");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,6 +128,45 @@ public class UserServiceImpl implements UserService {
 			eventResultDto.setResult(FAIL);
 		}
 		return eventResultDto;
+	}
+
+	@Override
+	public void saveRefreshToken(UserDto dto) {
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			dao.saveRefreshToken(dto);
+			//userResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//userResultDto.setResult(FAIL);
+		}
+	}
+
+	@Override
+	public UserResultDto getRefreshToken(String userEmail) {
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			String refreshToken = dao.getRefreshToken(userEmail);
+			userResultDto.setResult(SUCCESS);
+			userResultDto.setRefreshToken(refreshToken);
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
+	
+	// refresh 토큰 삭제
+	public UserResultDto deleteRefreshToken(String userEmail) {
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			dao.deleteRefreshToken(userEmail);
+			userResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
 	}
 
 }
