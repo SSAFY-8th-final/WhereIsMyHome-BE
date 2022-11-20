@@ -3,23 +3,58 @@
 <mapper namespace="com.mycom.myhouse.event.dao.EventDao">
 
 	<select id="eventList" parameterType="com.mycom.myhouse.event.dto.EventParamDto" resultType="com.mycom.myhouse.event.dto.EventDto">
-		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		select eventKey, name, statusCode, startDateTime, endDateTime
 		from event
-		where statusCode = '001'
 		order by eventKey desc
-		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="eventListFile" resultType="com.mycom.myhouse.event.dto.EventFileDto">
+		SELECT FILE_ID, EVENT_KEY, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, FILE_URL, REG_DT
+		  FROM EVENT_FILE
+		 ORDER BY FILE_ID ASC
 	</select>
 	
 	<select id="eventDetail" parameterType="int" resultType="com.mycom.myhouse.event.dto.EventDto">
-		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		select eventKey, name, content, category, statusCode, registerId, startDateTime, endDateTime, registerDateTime, readCount
 		from event
 		where eventKey = #{eventKey}
 	</select>
 	
-	<insert id="eventAttend" parameterType="com.mycom.myhouse.event.dto.EventParamDto">
-		insert into event_attend ( eventKey, userId, attendDateTime )
-		values ( #{eventKey}, #{userEmail}, now() )
-
+	<select id="eventDetailFileList" parameterType="int" resultType="com.mycom.myhouse.event.dto.EventFileDto">
+		SELECT FILE_ID, EVENT_KEY, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, FILE_URL, REG_DT
+		  FROM EVENT_FILE
+		 WHERE EVENT_KEY = #{eventKey}
+	</select>
+	
+	<select id="attendCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM EVENT_ATTEND WHERE eventKey = #{eventKey}
+	</select>
+	
+	<select id="eventUserReadCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM event_user_read WHERE event_key = #{eventKey} and user_seq = #{userSeq}
+	</select>
+	
+	<insert id="eventUserReadInsert" parameterType="map">
+		INSERT INTO event_user_read ( event_key, user_seq )
+		            VALUES ( #{eventKey}, #{userSeq} )
 	</insert>
+	
+	<update id="eventReadCountUpdate" parameterType="int">
+		UPDATE event set readCount = readCount + 1
+		 WHERE eventKey = #{eventKey}
+	</update>
+	
+	<insert id="eventAttend" parameterType="com.mycom.myhouse.event.dto.EventParamDto">
+		insert into event_attend ( eventKey, user_email, attendDateTime )
+		values ( #{eventKey}, #{userEmail}, now() )
+	</insert>
+	
+	<delete id="leaveEvent" parameterType="com.mycom.myhouse.event.dto.EventParamDto">
+		delete from event_attend where eventKey = #{eventKey} and user_email = #{userEmail}
+	</delete>
+	
+	<select id="isAttend" parameterType="map" resultType="int">
+		select count(*) from event_attend where eventKey = #{eventKey} and user_email = #{userEmail}
+	</select>
 	
 </mapper>
