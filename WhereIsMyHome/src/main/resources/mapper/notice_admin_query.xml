@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myhouse.admin.dao.AdminNoticeDao">
+
+	<select id="noticeList" parameterType="map" resultType="com.mycom.myhouse.notice.dto.NoticeDto">
+		select notice_id, title, regDt, user_email
+		from notice
+		order by notice_id desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="noticeListTotalCount" resultType="int">
+		select count(*) from notice
+	</select>
+	
+	<select id="noticeListSearchWord" parameterType="map" resultType="com.mycom.myhouse.notice.dto.NoticeDto">
+		select notice_id, title, content, read_count, regDt, user_email
+		from notice
+         where title like concat('%', #{searchWord} ,'%')
+         order by notice_id desc
+         limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="noticeListSearchWordTotalCount" parameterType="string" resultType="int">
+		select count(*) from notice where title like concat('%', #{searchWord} ,'%')
+	</select>
+	
+	<select id="noticeDetail" parameterType="map" resultType="com.mycom.myhouse.notice.dto.NoticeDto">
+		select notice_id, title, content, read_count, regDt, user_email
+		from notice
+		where notice_id = #{noticeId}
+	</select>
+	
+	<insert id="noticeInsert" parameterType="map">
+		insert into notice (title, content, regDt, user_email)
+		values (#{title}, #{content}, now(), #{userEmail})
+	</insert>
+	
+	<update id="noticeUpdate" parameterType="map">
+		UPDATE notice
+		SET title = #{title},
+			content = #{content}
+		WHERE notice_id = #{noticeId}
+	</update>
+	
+	<delete id="noticeDelete" parameterType="int">
+		delete from notice where notice_id = #{noticeId}
+	</delete>
+	
+	<delete id="noticeReadCountDelete" parameterType="int">
+		DELETE FROM notice_user_read WHERE notice_id = #{noticeId}
+	</delete>
+</mapper>
