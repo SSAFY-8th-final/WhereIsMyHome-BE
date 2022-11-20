@@ -13,6 +13,11 @@
 		<mapper resource="mapper/event_query.xml"></mapper>
 		<mapper resource="mapper/user_query.xml"></mapper>
 		<mapper resource="mapper/map_query.xml"></mapper>
+
 		<mapper resource="mapper/sale_query.xml"></mapper>
+
+		<mapper resource="mapper/notice_admin_query.xml"></mapper>
+		<mapper resource="mapper/notice_query.xml"></mapper>
+
 	</mappers>
 </configuration>

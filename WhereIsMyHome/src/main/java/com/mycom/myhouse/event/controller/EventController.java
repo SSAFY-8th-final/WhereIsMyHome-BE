@@ -8,10 +8,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycom.myhouse.event.dto.EventDto;
@@ -23,6 +25,13 @@ import com.mycom.myhouse.user.dto.UserResultDto;
 import com.mycom.myhouse.user.service.UserService;
 
 @RestController
+@CrossOrigin(
+		// localhost:5500 과 127.0.0.1 구분
+		origins = "http://localhost:5500", // allowCredentials = "true" 일 경우, orogins="*" 는 X
+		allowCredentials = "true", 
+		allowedHeaders = "*", 
+		methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.HEAD,RequestMethod.OPTIONS}
+	)
 public class EventController {
 	
 	@Autowired
@@ -34,9 +43,6 @@ public class EventController {
 	@GetMapping("/events") 
 	private ResponseEntity<EventResultDto> eventList(EventParamDto eventDto){
 		EventParamDto eventParamDto = new EventParamDto();
-		eventParamDto.setOffset(0);
-		eventParamDto.setLimit(10);
-		
 		
 		EventResultDto eventResultDto = service.eventList(eventParamDto);
 		
@@ -48,7 +54,14 @@ public class EventController {
 	}
 	@GetMapping("/events/{eventKey}")
 	private ResponseEntity<EventResultDto> eventDetail(@PathVariable int eventKey){
-		EventResultDto eventResultDto = service.eventDetail(eventKey);
+		EventParamDto eventParamDto = new EventParamDto();
+		eventParamDto.setEventKey(eventKey);
+		
+		// 로그인 추가 후 지우기 !!!!
+		eventParamDto.setUserSeq(8);
+		eventParamDto.setUserEmail("ssafy");
+		
+		EventResultDto eventResultDto = service.eventDetail(eventParamDto);
 		
 		if(eventResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.OK);
@@ -59,15 +72,37 @@ public class EventController {
 	
 	@PostMapping("/events/{eventKey}")
 	private ResponseEntity<Map<String, String>> eventAttend(@PathVariable int eventKey, HttpSession session){
-		UserDto userDto = (UserDto) session.getAttribute("userDto");
+//		UserDto userDto = (UserDto) session.getAttribute("userDto");  // 로그인 구현 후 주석 제거 !!!
 		Map<String, String> map = new HashMap<>();
 		
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);
-		eventParamDto.setUserEmail(userDto.getUserEmail());
+//		eventParamDto.setUserEmail(userDto.getUserEmail());   // 로그인 구현 후 주석 제거 !!!
+		eventParamDto.setUserEmail("ssafy");
 		
 		
 		EventResultDto eventResultDto = service.eventAttend(eventParamDto);
+		if(eventResultDto.getResult().equals(SUCCESS)) {
+			map.put("result", "success");
+			return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
+		}else {
+			map.put("result", "fail");
+			return new ResponseEntity<Map<String, String>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@DeleteMapping("/events/{eventKey}")
+	private ResponseEntity<Map<String, String>> leaveEvent(@PathVariable int eventKey, HttpSession session){
+//		UserDto userDto = (UserDto) session.getAttribute("userDto");  // 로그인 구현 후 주석 제거 !!!
+		Map<String, String> map = new HashMap<>();
+		
+		EventParamDto eventParamDto = new EventParamDto();
+		eventParamDto.setEventKey(eventKey);
+//		eventParamDto.setUserEmail(userDto.getUserEmail());   // 로그인 구현 후 주석 제거 !!!
+		eventParamDto.setUserEmail("ssafy");
+		
+		
+		EventResultDto eventResultDto = service.leaveEvent(eventParamDto);
 		if(eventResultDto.getResult().equals(SUCCESS)) {
 			map.put("result", "success");
 			return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);

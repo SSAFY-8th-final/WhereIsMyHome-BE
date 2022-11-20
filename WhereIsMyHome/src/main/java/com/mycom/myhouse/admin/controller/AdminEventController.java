@@ -5,12 +5,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mycom.myhouse.admin.service.AdminEventService;
 import com.mycom.myhouse.event.dto.EventDto;
@@ -19,6 +21,13 @@ import com.mycom.myhouse.event.dto.EventResultDto;
 import com.mycom.myhouse.user.dto.UserDto;
 
 @RestController
+@CrossOrigin(
+		// localhost:5500 과 127.0.0.1 구분
+		origins = "http://localhost:5500", // allowCredentials = "true" 일 경우, orogins="*" 는 X
+		allowCredentials = "true", 
+		allowedHeaders = "*", 
+		methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.HEAD,RequestMethod.OPTIONS}
+	)
 public class AdminEventController {
 
 	@Autowired
@@ -29,13 +38,20 @@ public class AdminEventController {
 	// limit, offset, searchWord
 	@GetMapping(value="/admins/events")
 	public ResponseEntity<EventResultDto> eventList(EventParamDto eventParamDto) {
+		
 		EventResultDto eventResultDto;
 		
 		// service 호출할 때, searchWord 유무에 따라 분리해서 처리
 		if(eventParamDto.getSearchWord() == null || eventParamDto.getSearchWord().isEmpty()) {
-			eventResultDto = service.eventList(eventParamDto);
+			if( eventParamDto.getOption() == null || eventParamDto.getOption().isEmpty())
+				eventResultDto = service.eventList(eventParamDto);				
+			else
+				eventResultDto = service.eventListOption(eventParamDto);
 		} else {
-			eventResultDto = service.boardListSearchWord(eventParamDto);
+			if( eventParamDto.getOption() == null || eventParamDto.getOption().isEmpty() )
+				eventResultDto = service.eventListSearchWord(eventParamDto);
+			else
+				eventResultDto = service.eventListSearchWordOption(eventParamDto);
 		}
 		
 		if (eventResultDto.getResult() == SUCCESS) {
@@ -50,8 +66,6 @@ public class AdminEventController {
 		// BoardParamDto 만들기
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);  // PathVariable로 넘어온 게시글 key
-		UserDto userDto = (UserDto) session.getAttribute("userDto"); // 현재 로그인 + 상세페이지 요청한 사용자
-		eventParamDto.setUserSeq(userDto.getUserSeq());
 		
 		// BoardResultDto 만들기
 		EventResultDto eventResultDto = service.eventDetail(eventParamDto);
@@ -64,13 +78,17 @@ public class AdminEventController {
 	}
 	
 	@PostMapping(value="/admins/events") 
-	public ResponseEntity<EventResultDto> eventInsert(EventDto dto, HttpSession session) {
-		UserDto userDto = (UserDto) session.getAttribute("userDto");
-		dto.setRegisterId(userDto.getUserName());
+	public ResponseEntity<EventResultDto> eventInsert(EventDto dto, MultipartHttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		// 로그인 구현하면 주석제거 !!
+		dto.setRegisterId("ssafy@mail.com");
+//		UserDto userDto = (UserDto) session.getAttribute("userDto");
+//		dto.setRegisterId(userDto.getUserName());
 		
 		System.out.println(dto);
 		
-		EventResultDto eventResultDto = service.eventInsert(dto);
+		EventResultDto eventResultDto = service.eventInsert(dto, request);
 		
 		if (eventResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.OK);
@@ -79,10 +97,10 @@ public class AdminEventController {
 		}
 	}
 	
-	@PutMapping(value="/admins/events/{eventKey}") 
-	private ResponseEntity<EventResultDto> eventUpdate(EventDto dto, HttpSession session) {
+	@PostMapping(value="/admins/events/{eventKey}") 
+	private ResponseEntity<EventResultDto> eventUpdate(EventDto dto, MultipartHttpServletRequest request) {
 		// BoardResultDto 만들기
-		EventResultDto eventResultDto = service.eventUpdate(dto);
+		EventResultDto eventResultDto = service.eventUpdate(dto, request);
 		
 		if (eventResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.OK);

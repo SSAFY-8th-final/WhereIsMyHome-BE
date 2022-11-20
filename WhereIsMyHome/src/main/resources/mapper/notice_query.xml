@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myhouse.notice.dao.NoticeDao">
+
+	<select id="noticeList" parameterType="map" resultType="com.mycom.myhouse.notice.dto.NoticeDto">
+		select notice_id, title, read_count, regDt, user_email
+		from notice
+		order by notice_id desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="noticeListTotalCount" resultType="int">
+		select count(*) from notice
+	</select>
+	
+	<select id="noticeListSearchWord" parameterType="map" resultType="com.mycom.myhouse.notice.dto.NoticeDto">
+		select notice_id, title, content, read_count, regDt, user_email
+		from notice
+         where title like concat('%', #{searchWord} ,'%')
+         order by notice_id desc
+         limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="noticeListSearchWordTotalCount" parameterType="string" resultType="int">
+		select count(*) from notice where title like concat('%', #{searchWord} ,'%')
+	</select>
+	
+	<select id="noticeDetail" parameterType="map" resultType="com.mycom.myhouse.notice.dto.NoticeDto">
+		select notice_id, title, content, read_count, regDt, user_email
+		from notice
+		where notice_id = #{noticeId}
+	</select>
+	
+	<select id="noticeUserReadCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM notice_user_read WHERE notice_id = #{noticeId} and user_seq = #{userSeq}
+	</select>
+	
+	<insert id="noticeUserReadInsert" parameterType="map">
+		INSERT INTO notice_user_read ( notice_id, user_seq )
+		            VALUES ( #{noticeId}, #{userSeq} )
+	</insert>
+	
+	<update id="noticeReadCountUpdate" parameterType="int">
+		UPDATE notice set read_count = read_count + 1
+		 WHERE notice_id = #{noticeId}
+	</update>
+</mapper>

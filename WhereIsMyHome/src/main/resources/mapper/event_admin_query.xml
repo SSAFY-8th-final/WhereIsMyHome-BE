@@ -3,7 +3,7 @@
 <mapper namespace="com.mycom.myhouse.admin.dao.AdminEventDao">
 
 	<select id="eventList" parameterType="map" resultType="com.mycom.myhouse.event.dto.EventDto">
-		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		select eventKey, name, category, registerId, statusCode, registerDateTime
 		from event
 		order by eventKey desc
 		limit #{limit} offset #{offset}
@@ -13,14 +13,8 @@
 		select count(*) from event
 	</select>
 	
-	<select id="eventDetail" parameterType="map" resultType="com.mycom.myhouse.event.dto.EventDto">
-		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
-		from event
-		where eventKey = #{eventKey}
-	</select>
-	
 	<select id="eventListSearchWord" parameterType="map" resultType="com.mycom.myhouse.event.dto.EventDto">
-		select eventKey, name, registerId, startDateTime, endDateTime, registerDateTime
+		select eventKey, name, category, registerId, statusCode, registerDateTime
 		from event
          where name like concat('%', #{searchWord} ,'%')
          order by eventKey desc
@@ -31,18 +25,77 @@
 		select count(*) from event where name like concat('%', #{searchWord} ,'%')
 	</select>
 	
+	<select id="eventListOption" parameterType="map" resultType="com.mycom.myhouse.event.dto.EventDto">
+		select eventKey, name, category, registerId, statusCode, registerDateTime
+		from event
+         where statusCode = #{option}
+         order by eventKey desc
+         limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="eventListOptionTotalCount" parameterType="string" resultType="int">
+		select count(*) from event where statusCode = #{option}
+	</select>
+	
+	<select id="eventListSearchWordOption" parameterType="map" resultType="com.mycom.myhouse.event.dto.EventDto">
+		select eventKey, name, category, registerId, statusCode, registerDateTime
+		from event
+         where statusCode = #{option}
+         	and name like concat('%', #{searchWord} ,'%')
+         order by eventKey desc
+         limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="eventListSearchWordOptionTotalCount" parameterType="string" resultType="int">
+		select count(*) from event where statusCode = #{option} and name like concat('%', #{searchWord} ,'%')
+	</select>
+	
+	<select id="eventDetail" parameterType="map" resultType="com.mycom.myhouse.event.dto.EventDto">
+		select eventKey, name, content, category, registerId, statusCode, startDateTime, endDateTime, registerDateTime, readCount
+		from event
+		where eventKey = #{eventKey}
+	</select>
+	
+	<select id="eventDetailFileList" parameterType="int" resultType="com.mycom.myhouse.event.dto.EventFileDto">
+		SELECT FILE_ID, EVENT_KEY, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, FILE_URL, REG_DT
+		  FROM EVENT_FILE
+		 WHERE EVENT_KEY = #{eventKey}
+	</select>
+	
 	<insert id="eventInsert" parameterType="map">
-		insert into event (name, startDateTime, endDateTime, url, statusCode, registerId, registerDateTime)
-		values (#{name}, #{startDateTime}, #{endDateTime}, "", "001", #{registerId}, now())
+		insert into event (name, content, category, registerId, statusCode, startDateTime, endDateTime, registerDateTime)
+		values (#{name}, #{content}, #{category}, #{registerId}, #{statusCode}, #{startDateTime}, #{endDateTime}, now())
+	</insert>
+	
+	<insert id="eventFileInsert" parameterType="com.mycom.myhouse.event.dto.EventFileDto">
+		INSERT INTO EVENT_FILE ( EVENT_KEY, FILE_NAME, FILE_SIZE, FILE_URL, FILE_CONTENT_TYPE )
+		            VALUES ( #{eventKey}, #{fileName}, #{fileSize}, #{fileUrl}, #{fileContentType} )
 	</insert>
 	
 	<update id="eventUpdate" parameterType="map">
 		UPDATE event
-		SET name = #{name} 
+		SET name = #{name}
+			content = #{content}
+			category = #{category}
+			statusCode = #{statusCode}
+			startDateTime = #{startDateTime}
+			endDateTime = #{endDateTime}
 		WHERE eventKey = #{eventKey}
 	</update>
 	
 	<delete id="eventDelete" parameterType="int">
 		delete from event where eventKey = #{eventKey}
+	</delete>
+	
+	<select id="eventFileUrlDeleteList" parameterType="int" resultType="string">
+		SELECT FILE_URL FROM EVENT_FILE WHERE EVENT_KEY = #{eventKey}
+	</select>
+	
+	<delete id="eventFileDelete" parameterType="int">
+		DELETE FROM EVENT_FILE WHERE EVENT_KEY = #{eventKey}
+	</delete>
+	
+	<delete id="eventReadCountDelete" parameterType="int">
+		DELETE FROM event_user_read WHERE EVENT_KEY = #{eventKey}
 	</delete>
 </mapper>
