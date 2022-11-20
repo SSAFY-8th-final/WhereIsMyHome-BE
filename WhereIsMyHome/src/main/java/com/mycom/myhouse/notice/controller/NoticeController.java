@@ -54,7 +54,9 @@ public class NoticeController {
 	public ResponseEntity<NoticeResultDto> noticeDetail(@PathVariable int noticeId, HttpSession session) {
 		// BoardParamDto 만들기
 		NoticeParamDto noticeParamDto = new NoticeParamDto();
-		noticeParamDto.setNoticeId(noticeId);;  // PathVariable로 넘어온 게시글 key
+		noticeParamDto.setNoticeId(noticeId);  // PathVariable로 넘어온 게시글 key
+		// 로그인 구현 후 제거 !! -> 세션 추가
+		noticeParamDto.setUserSeq(8);
 		
 		// BoardResultDto 만들기
 		NoticeResultDto noticeResultDto = service.noticeDetail(noticeParamDto);

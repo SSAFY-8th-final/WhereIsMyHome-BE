@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mycom.myhouse.admin.dao.AdminNoticeDao;
+import com.mycom.myhouse.notice.dao.NoticeDao;
 import com.mycom.myhouse.notice.dto.NoticeDto;
 import com.mycom.myhouse.notice.dto.NoticeParamDto;
 import com.mycom.myhouse.notice.dto.NoticeResultDto;
@@ -14,7 +15,7 @@ import com.mycom.myhouse.notice.dto.NoticeResultDto;
 public class NoticeServiceImpl implements NoticeService {
 
 	@Autowired
-	AdminNoticeDao dao;
+	NoticeDao dao;
 
 	private final String SUCCESS = "success";
 	private final String FAIL = "fail";
@@ -66,6 +67,12 @@ public class NoticeServiceImpl implements NoticeService {
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
 		
 		try {
+			int userReadCount = dao.noticeUserReadCount(noticeParamDto);
+			if(userReadCount == 0) {
+				dao.noticeUserReadInsert(noticeParamDto.getNoticeId(), noticeParamDto.getUserSeq());
+				dao.noticeReadCountUpdate(noticeParamDto.getNoticeId());
+			}
+			
 			NoticeDto dto = dao.noticeDetail(noticeParamDto);
 			noticeResultDto.setDto(dto);
 			
