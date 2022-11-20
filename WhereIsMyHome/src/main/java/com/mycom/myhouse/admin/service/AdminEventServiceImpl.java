@@ -123,9 +123,7 @@ public class AdminEventServiceImpl implements AdminEventService {
 		try {
 			EventDto dto = dao.eventDetail(eventParamDto);
 			List<EventFileDto> fileList = dao.eventDetailFileList(dto.getEventKey());
-			if(fileList.size() > 0) {
-				dto.setFileList(fileList);				
-			}
+			dto.setFileList(fileList);
 			eventResultDto.setDto(dto);
 			
 			eventResultDto.setResult(SUCCESS);
