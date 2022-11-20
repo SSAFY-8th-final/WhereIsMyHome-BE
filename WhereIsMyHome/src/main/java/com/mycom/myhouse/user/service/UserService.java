@@ -18,4 +18,8 @@ public interface UserService {
 	UserResultDto userDelete(UserDto dto);
 	UserResultDto login(UserDto dto);
 	EventResultDto userEventAttendList(String userEmail);
+	
+	void saveRefreshToken(UserDto dto);
+	UserResultDto getRefreshToken(String userEmail);
+	UserResultDto deleteRefreshToken(String userEmail);
 }

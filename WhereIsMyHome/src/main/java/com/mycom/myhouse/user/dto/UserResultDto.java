@@ -13,7 +13,10 @@ import lombok.ToString;
 @ToString
 public class UserResultDto {
 	private String result;	// 결과
+	
 	private UserDto UserDto;	// 유저 하나
 	private List<UserDto> list;	// 유저 목록
 	
+	private String accessToken;
+	private String refreshToken;
 }

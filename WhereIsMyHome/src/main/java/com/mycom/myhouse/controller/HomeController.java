@@ -14,11 +14,6 @@ public class HomeController {
 		return "/index.html"; // static folder의 index.html로 이동
 	}
 	
-	// interceptor에 적용되지 않음 > prehandle x
-	@GetMapping(value = "/login")
-	public String login() {
-		return "/login.html";
-	}
 	
 	// interceptor에 적용되지 않음 > prehandle x
 	@GetMapping(value = "/logout")
@@ -48,8 +43,4 @@ public class HomeController {
 		return "/event/eventMain.html";
 	}
 
-	@GetMapping(value = "/user")
-	public String user() {
-		return "/user/userMain.html";
-	}
 }

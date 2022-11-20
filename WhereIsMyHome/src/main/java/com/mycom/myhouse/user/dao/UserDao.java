@@ -16,4 +16,8 @@ public interface UserDao {
 	UserDto login(String userEmail);
 	List<EventDto> userEventAttendList(String userEmail);
 	void userEventAttendDelete(String userEmail);
+	
+	String getRefreshToken(String userEmail);
+	void deleteRefreshToken(String userEmail);
+	void saveRefreshToken(UserDto dto);
 }
