@@ -29,6 +29,48 @@ public class SaleServiceImpl implements SaleService{
 	private final String FAIL = "fail";
 
 	@Override
+	public SaleResultDto saleList(SaleParamDto saleParamDto) {
+		SaleResultDto saleResultDto = new SaleResultDto();
+		
+		try {
+			// 목록, 총건수를 가져온다.
+			List<SaleDto> list = dao.saleList(saleParamDto);
+			int count = dao.saleListTotalCount(saleParamDto);
+			
+			saleResultDto.setList(list);
+			saleResultDto.setCount(count);
+			
+			saleResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saleResultDto.setResult(FAIL);
+		}
+		
+		return saleResultDto;
+	}
+	
+	@Override
+	public SaleResultDto saleListSearchWord(SaleParamDto saleParamDto) {
+		SaleResultDto saleResultDto = new SaleResultDto();
+		
+		try {
+			// 목록, 총건수를 가져온다.
+			List<SaleDto> list = dao.saleListSearchWord(saleParamDto);
+			int count = dao.saleListSearchWordTotalCount(saleParamDto);
+			
+			saleResultDto.setList(list);
+			saleResultDto.setCount(count);
+			
+			saleResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saleResultDto.setResult(FAIL);
+		}
+		
+		return saleResultDto;
+	}
+	
+	@Override
 	public SaleResultDto saleDelete(int no) {
 		SaleResultDto saleResultDto = new SaleResultDto();
 		try {
@@ -118,5 +160,4 @@ public class SaleServiceImpl implements SaleService{
 		}
 		return saleResultDto;
 	}
-
 }

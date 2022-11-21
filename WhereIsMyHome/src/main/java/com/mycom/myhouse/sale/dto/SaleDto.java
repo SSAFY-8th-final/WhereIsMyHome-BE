@@ -31,6 +31,10 @@ public class SaleDto {
 	private String saleTypeCode;
 	
 	private String houseinfoNo;
+	private String aptName;
 	private String userEmail;
+	
+	private String lat;
+	private String lng;
 	
 }

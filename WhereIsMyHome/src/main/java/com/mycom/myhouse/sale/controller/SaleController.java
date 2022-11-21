@@ -23,6 +23,24 @@ public class SaleController {
 	private final String SUCCESS = "success";
 	private final String FAIL = "fail";
 	
+	@GetMapping("/sales")
+	private ResponseEntity<SaleResultDto> saleList(SaleParamDto saleParamDto){
+		
+		SaleResultDto saleResultDto;
+		
+		if(saleParamDto.getSearchWord() == null || saleParamDto.getSearchWord().isEmpty()) {
+			saleResultDto = service.saleList(saleParamDto);
+		} else {
+			saleResultDto = service.saleListSearchWord(saleParamDto);
+		}
+		
+		if(saleResultDto.getResult().equals(SUCCESS)) {
+			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("/sales/dealer/{userEmail}") 
 	private ResponseEntity<SaleResultDto> saleListDealer(@PathVariable String userEmail){
 		SaleParamDto saleParamDto = new SaleParamDto();
@@ -47,7 +65,7 @@ public class SaleController {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@DeleteMapping("/sales/{no}")
+	@DeleteMapping("/sales/dealer/{no}")
 	private ResponseEntity<SaleResultDto> saleDelete(@PathVariable int no){
 		SaleResultDto saleResultDto = service.saleDelete(no);
 		
@@ -57,7 +75,7 @@ public class SaleController {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@PostMapping("/sales")
+	@PostMapping("/sales/dealer")
 	private ResponseEntity<SaleResultDto> saleInsert(SaleDto saleDto){
 		
 		
@@ -68,7 +86,7 @@ public class SaleController {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@PutMapping("/sales/{no}")
+	@PutMapping("/sales/dealer/{no}")
 	private ResponseEntity<SaleResultDto> saleUpdate(SaleDto saleDto){
 		
 		
