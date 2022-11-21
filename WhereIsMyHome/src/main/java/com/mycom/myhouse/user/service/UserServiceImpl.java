@@ -134,6 +134,7 @@ public class UserServiceImpl implements UserService {
 	public void saveRefreshToken(UserDto dto) {
 		UserResultDto userResultDto = new UserResultDto();
 		try {
+			System.out.println(dto);
 			dao.saveRefreshToken(dto);
 			//userResultDto.setResult(SUCCESS);
 		} catch (Exception e) {

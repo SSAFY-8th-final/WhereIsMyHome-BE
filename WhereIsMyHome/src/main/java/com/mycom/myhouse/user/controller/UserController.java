@@ -107,7 +107,7 @@ public class UserController {
 		
 		UserResultDto userResultDto = null;
 		HttpStatus status = null;
-		if (jwtService.checkToken(request.getHeader("access-token"))) {
+		if (jwtService.checkToken(request.getHeader("Authrozation"))) {
 			userResultDto = service.userDetail(userEmail);
 			
 			if(userResultDto.getResult().equals(SUCCESS)) 
@@ -127,7 +127,7 @@ public class UserController {
 		logger.info("userUpdate: " + userDto);
 		UserResultDto userResultDto = null;
 		HttpStatus status = null;
-		if (jwtService.checkToken(request.getHeader("access-token"))) {
+		if (jwtService.checkToken(request.getHeader("Authrozation"))) {
 			userResultDto = service.userUpdate(userDto);
 			
 			if(userResultDto.getResult().equals(SUCCESS)) {
@@ -147,7 +147,7 @@ public class UserController {
 //		logger.info("userDelete: " + userEmail);
 //		UserResultDto userResultDto = null;
 //		HttpStatus status = null;
-//		if (jwtService.checkToken(request.getHeader("access-token"))) {
+//		if (jwtService.checkToken(request.getHeader("Authrozation"))) {
 //			userResultDto = service.userDelete(userDto);
 //			
 //			if(userResultDto.getResult().equals(SUCCESS)) {
@@ -187,7 +187,7 @@ public class UserController {
 			throws Exception {
 		UserResultDto userResultDto = null;
 		HttpStatus status = HttpStatus.ACCEPTED;
-		String token = request.getHeader("refresh-token");
+		String token = request.getHeader("refreshToken");
 		logger.debug("token : {}, userDto : {}", token, dto);
 		if (jwtService.checkToken(token)) {
 			userResultDto = service.getRefreshToken(dto.getUserEmail());
