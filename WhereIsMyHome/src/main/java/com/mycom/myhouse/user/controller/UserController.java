@@ -60,6 +60,7 @@ public class UserController {
 				String refreshToken = jwtService.createRefreshToken("userEmail", loginUser.getUserEmail());// key, data
 				
 				dto.setToken(refreshToken);
+				dto.setUserPassword(null);
 				service.saveRefreshToken(dto);
 				logger.debug("로그인 accessToken 정보 : {}", accessToken);
 				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
@@ -142,47 +143,8 @@ public class UserController {
 		return new ResponseEntity<UserResultDto>(userResultDto, status);
 	}
 	
-//	@DeleteMapping("/users/{userEmail}")
-//	public ResponseEntity<Map<String, String>> userDelete(@PathVariable String userEmail, HttpServletRequest request){
-//		logger.info("userDelete: " + userEmail);
-//		UserResultDto userResultDto = null;
-//		HttpStatus status = null;
-//		if (jwtService.checkToken(request.getHeader("Authrozation"))) {
-//			userResultDto = service.userDelete(userDto);
-//			
-//			if(userResultDto.getResult().equals(SUCCESS)) {
-//				status = HttpStatus.OK;
-//			} else {
-//				status = HttpStatus.INTERNAL_SERVER_ERROR;
-//			}
-//		}else {
-//			logger.error("사용 불가능 토큰!!!");
-//			status = HttpStatus.UNAUTHORIZED;
-//		}
-//		return new ResponseEntity<UserResultDto>(userResultDto, status);
-//		
-//		
-//		UserDto userDto = (UserDto) session.getAttribute("userDto");
-//		Map<String, String> map = new HashMap<>();
-//		
-//		if(userDto==null) {
-//			map.put("result", "fail");
-//			return new ResponseEntity<Map<String, String>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//		
-//		UserResultDto userResultDto = service.userDelete(userDto);
-//		
-//		if(userResultDto.getResult().equals(SUCCESS)) {
-//			map.put("result", "success");
-//			return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
-//		}else {
-//			map.put("result", "fail");
-//			return new ResponseEntity<Map<String, String>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//		
-//	}
 	
-	@PostMapping("/refresh")
+	@PostMapping("/users/refresh")
 	public ResponseEntity<?> refreshToken(@RequestBody UserDto dto, HttpServletRequest request)
 			throws Exception {
 		UserResultDto userResultDto = null;
@@ -204,6 +166,47 @@ public class UserController {
 		}
 		return new ResponseEntity<UserResultDto>(userResultDto, status);
 	}
+	 @PostMapping("/checkPw")
+	    public ResponseEntity<UserResultDto> checkPw(@RequestBody UserDto dto){
+
+	    	UserResultDto userResultDto = null;
+			HttpStatus status = null;
+			try {
+				System.out.println(dto);
+		    	userResultDto = service.login(dto);
+		    	UserDto loginUser = userResultDto.getUserDto();
+		    	
+				if (loginUser != null) {		
+					status = HttpStatus.OK;
+				} else {
+					status = HttpStatus.UNAUTHORIZED;
+				}
+			} catch (Exception e) {
+				logger.error("비밀번호 확인 실패 : {}", e);
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+			return new ResponseEntity<UserResultDto>(userResultDto, status);
+	    }
+	 @DeleteMapping("/user/{userEmail}")
+	 public ResponseEntity<UserResultDto> userDelete(@PathVariable String userEmail, HttpServletRequest request){
+		 
+		 UserResultDto userResultDto = null;
+		 HttpStatus status = null;
+		 
+		 if (jwtService.checkToken(request.getHeader("Authrozation"))) {
+			userResultDto = service.userDelete(userEmail);
+			
+			if(userResultDto.getResult().equals(SUCCESS)) {
+				status = HttpStatus.OK;
+			} else {
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+		}else {
+			logger.error("사용 불가능 토큰!!!");
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		 return new ResponseEntity<UserResultDto>(userResultDto, status);
+	 }
 	
 	@GetMapping("/users/eventList")
 	public ResponseEntity<EventResultDto> userEventAttendList(HttpSession session){

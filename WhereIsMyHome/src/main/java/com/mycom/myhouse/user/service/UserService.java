@@ -15,7 +15,8 @@ public interface UserService {
 	UserResultDto userDetail(String userEmail);
 	UserResultDto register(UserDto dto);
 	UserResultDto userUpdate(UserDto dto);
-	UserResultDto userDelete(UserDto dto);
+	UserResultDto userDelete(String userEmail);
+
 	UserResultDto login(UserDto dto);
 	EventResultDto userEventAttendList(String userEmail);
 	

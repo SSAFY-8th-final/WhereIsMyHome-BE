@@ -74,11 +74,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserResultDto userDelete(UserDto userDto) {
+	public UserResultDto userDelete(String userEmail) {
 		UserResultDto userResultDto = new UserResultDto();
 
 		try {
-			String userEmail = userDto.getUserEmail();
 			// 삭제 순서
 	        dao.userEventAttendDelete(userEmail);	// 이벤트 참여 삭제
 			dao.userDelete(userEmail); // 마지막으로 게시판 삭제
