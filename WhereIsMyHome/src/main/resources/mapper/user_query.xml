@@ -54,7 +54,7 @@
 	
 	<update id="deleteRefreshToken" parameterType="com.mycom.myhouse.user.dto.UserDto">
 		update 	users
-		   set	token = #{token, jdbcType=VARCHAR}
+		   set	token = null
 		 where 	user_email = #{userEmail} 
 	</update>
 	
