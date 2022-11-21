@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.myhouse.sale.dao.SaleDao">
 
+	<select id="saleList" parameterType="map" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+		select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room, hs.floor, hi.lat, hi.lng
+		from housesale hs, houseinfo hi
+		where hs.houseinfo_no = hi.no
+		order by hi.AptName asc;
+	</select>
+	
+	<select id="saleListTotalCount" resultType="int">
+		select count(*) from housesale
+	</select>
+	
+	<select id="saleListSearchWord" parameterType="map" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+		select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room, hs.floor, hi.lat, hi.lng
+		from housesale hs, houseinfo hi
+		where hs.houseinfo_no = hi.no
+			and hi.AptName like concat('%', #{searchWord},'%')
+		order by hi.AptName asc;
+	</select>
+	
+	<select id="saleListSearchWordTotalCount" parameterType="string" resultType="int">
+		select count(*) from housesale where house_name like concat('%', #{searchWord} ,'%')
+	</select>
+
 	<select id="saleListDealer" parameterType="com.mycom.myhouse.sale.dto.SaleParamDto" resultType="com.mycom.myhouse.sale.dto.SaleDto">
 		select 	no, dong_code, post_date, sale_amount, move_in_code, move_in_date, sale_type_code, 
 					description, room, bathroom, floor, houseinfo_no, user_email

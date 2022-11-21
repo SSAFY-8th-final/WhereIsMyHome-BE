@@ -13,6 +13,9 @@ public interface SaleService {
 	SaleResultDto saleInsert(SaleDto saleDto);
 	SaleResultDto saleDelete(int no);
 
+	SaleResultDto saleList(SaleParamDto saleParamDto);
+	SaleResultDto saleListSearchWord(SaleParamDto saleParamDto);
+	
 	SaleResultDto saleListDealer(SaleParamDto saleParamDto);
 
 	SaleResultDto saleDetail(int no);

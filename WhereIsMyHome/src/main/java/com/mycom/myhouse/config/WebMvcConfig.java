@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		System.out.println("interceptor");
 		registry.addInterceptor(jwtInterceptor)
-				.addPathPatterns("/mypage", "/sales/**");  // 로그인을 해야지만 접근 가능
+				.addPathPatterns("/mypage", "/sales/dealer/**");  // 로그인을 해야지만 접근 가능
 	}
 	
 	@Override
