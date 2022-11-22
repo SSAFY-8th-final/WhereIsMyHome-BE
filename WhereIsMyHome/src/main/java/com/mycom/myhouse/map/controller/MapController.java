@@ -31,19 +31,4 @@ public class MapController {
 		return new ResponseEntity<List<HouseDto>>(list, HttpStatus.OK);
 	}
 
-	@GetMapping("/maps/gugun/{sidoCode}") 
-	private ResponseEntity<List<GugunDto>> mapGugunList(@PathVariable String sidoCode){
-		List<GugunDto> list = service.mapGugunList(sidoCode);
-		
-		if(list == null) return new ResponseEntity<List<GugunDto>>(list, HttpStatus.NOT_FOUND);
-		return new ResponseEntity<List<GugunDto>>(list, HttpStatus.OK);
-	}
-	
-	@GetMapping("/maps/dong/{gugunCode}") 
-	private ResponseEntity<List<DongDto>> mapDongList(@PathVariable String gugunCode){
-		List<DongDto> list = service.mapDongList(gugunCode);
-		
-		if(list == null) return new ResponseEntity<List<DongDto>>(list, HttpStatus.NOT_FOUND);
-		return new ResponseEntity<List<DongDto>>(list, HttpStatus.OK);
-	}
 }

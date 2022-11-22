@@ -1,7 +1,5 @@
 package com.mycom.myhouse.sale.dto;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +18,7 @@ public class SaleParamDto {
 	private String jibun;
 	
 	private String userEmail;
+	
+	private int limit;
 	
 }

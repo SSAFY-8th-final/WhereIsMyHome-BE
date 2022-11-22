@@ -16,11 +16,11 @@ import lombok.ToString;
 public class SaleDto {
 	private int no;
 	private String dongCode;
-	private String addressDetail;
 	private Date postDate;
 	private Date moveInDate;
-	private String moveInDateStr;
 	private String saleAmount;
+	private String addressDetail;
+	private String moveInDateStr;
 	
 	private String description;
 	private String room;
@@ -30,9 +30,17 @@ public class SaleDto {
 	private String moveInCode;
 	private String saleTypeCode;
 	
-	private String houseinfoNo;
-	private String aptName;
 	private String userEmail;
+	private String houseinfoNo;
+	private String  utilityBill;
+	private String parking;
+	private String direction;
+	
+	private String dong;
+	private String AptName;
+	
+	private String buildYear;
+	private String jibun;
 	
 	private String lat;
 	private String lng;

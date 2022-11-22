@@ -23,6 +23,7 @@ public class SaleController {
 	private final String SUCCESS = "success";
 	private final String FAIL = "fail";
 	
+	// 테스트용
 	@GetMapping("/sales")
 	private ResponseEntity<SaleResultDto> saleList(SaleParamDto saleParamDto){
 		
@@ -41,13 +42,9 @@ public class SaleController {
 		}
 	}
 	
-	@GetMapping("/sales/dealer/{userEmail}") 
-	private ResponseEntity<SaleResultDto> saleListDealer(@PathVariable String userEmail){
-		SaleParamDto saleParamDto = new SaleParamDto();
-		saleParamDto.setUserEmail(userEmail);
-		
-		
-		SaleResultDto saleResultDto = service.saleListDealer(saleParamDto);
+	@GetMapping("/sales/{no}")
+	private ResponseEntity<SaleResultDto> saleDetail(@PathVariable int no){
+		SaleResultDto saleResultDto = service.saleDetail(no);
 		
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
@@ -55,9 +52,13 @@ public class SaleController {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@GetMapping("/sales/{no}")
-	private ResponseEntity<SaleResultDto> saleDetail(@PathVariable int no){
-		SaleResultDto saleResultDto = service.saleDetail(no);
+	@GetMapping("/sales/dealer/{userEmail}") 
+	private ResponseEntity<SaleResultDto> saleListDealer(@PathVariable String userEmail){
+		SaleParamDto saleParamDto = new SaleParamDto();
+		saleParamDto.setUserEmail(userEmail);
+		
+		
+		SaleResultDto saleResultDto = service.saleListDealer(saleParamDto);
 		
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
