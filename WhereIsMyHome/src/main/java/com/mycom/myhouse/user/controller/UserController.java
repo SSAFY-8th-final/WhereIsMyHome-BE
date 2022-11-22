@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -92,6 +93,7 @@ public class UserController {
 	// HttpStatus Code로 처리결과를 Wrapping 하기 위해 ResponseEntity를 사용
 	@PostMapping("/register")
 	public ResponseEntity<UserResultDto> register(@RequestBody UserDto userDto){
+		System.out.println(userDto);
 		UserResultDto userResultDto = service.register(userDto);
 		
 		Map<String, String> map = new HashMap<>();
@@ -123,14 +125,16 @@ public class UserController {
 		return new ResponseEntity<UserResultDto>(userResultDto, status);
 		
 	}
-	@PutMapping("/users")
-	public ResponseEntity<UserResultDto> userUpdate(@RequestBody UserDto userDto, HttpServletRequest request){
+	@PatchMapping("/users/{userEmail}")
+	public ResponseEntity<UserResultDto> userUpdate(@PathVariable String userEmail,@RequestBody UserDto userDto, HttpServletRequest request){
 		logger.info("userUpdate: " + userDto);
 		UserResultDto userResultDto = null;
 		HttpStatus status = null;
 		if (jwtService.checkToken(request.getHeader("Authrozation"))) {
+			System.out.println("토큰 통과");
+			userDto.setUserEmail(userEmail);
 			userResultDto = service.userUpdate(userDto);
-			
+			System.out.println(userResultDto.getResult());
 			if(userResultDto.getResult().equals(SUCCESS)) {
 				status = HttpStatus.OK;
 			} else {
