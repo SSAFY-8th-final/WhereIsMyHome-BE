@@ -1,15 +1,12 @@
 package com.mycom.myhouse.sale.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mycom.myhouse.event.dto.EventParamDto;
 import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.sale.dto.SaleDto;
 import com.mycom.myhouse.sale.dto.SaleParamDto;
-import com.mycom.myhouse.sale.dto.SaleResultDto;
 
 @Mapper
 public interface SaleDao {
