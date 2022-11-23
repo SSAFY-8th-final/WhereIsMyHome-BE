@@ -23,4 +23,11 @@
 		  from 	houseinfo
 		 where 	no = #{no}
 	</select>
+	<select id="houseSearchByName" resultType="com.mycom.myhouse.map.dto.SearchResultDto" parameterType="string">
+	    select no, AptName
+	      from houseinfo 
+	     where AptName like concat('%', #{searchWord}, '%')
+	     order by AptName
+	     limit 20
+	</select>
 </mapper>

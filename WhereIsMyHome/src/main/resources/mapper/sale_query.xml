@@ -21,11 +21,12 @@
 	</select>
 	
 	<select id="saleDetail" parameterType="int" resultType="com.mycom.myhouse.sale.dto.SaleDto">
-		select 	s.no, s.dong_code, s.post_date, s.sale_amount, s.move_in_code, s.move_in_date, s.sale_type_code, 
-					s.description, s.room, s.bathroom, s.floor, s.user_email , s.address_detail, s.utility_bill, s.parking, s.direction,
-					i.dong, i.AptName, i.buildYear, i.jibun
+		select  s.no, s.dong_code, s.post_date, s.sale_amount, s.move_in_code, s.move_in_date, s.sale_type_code, 
+		        	s.description, s.room, s.bathroom, s.floor, s.user_email , s.address_detail, s.utility_bill, s.parking, s.direction,
+		            i.dong, i.AptName, i.buildYear, i.jibun
 		  from  housesale s join houseinfo i
-		 where 	s.houseinfo_no = i.no
+		    on	s.houseinfo_no = i.no
+		 where  s.no = #{no}
 	</select>
 	
 	<insert id="saleInsert" parameterType="com.mycom.myhouse.sale.dto.SaleDto">

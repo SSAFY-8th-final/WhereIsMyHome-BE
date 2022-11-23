@@ -30,5 +30,13 @@ public class MapController {
 		if(list == null) return new ResponseEntity<List<HouseDto>>(list, HttpStatus.NOT_FOUND);
 		return new ResponseEntity<List<HouseDto>>(list, HttpStatus.OK);
 	}
+	@GetMapping("/maps/search/{searchWord}") 
+	private ResponseEntity<List<SearchResultDto>> houseSearchByName(@PathVariable String searchWord){
+		System.out.println("controller - houseSearchByName");
+		List<SearchResultDto> list = service.houseSearchByName(searchWord);
+		System.out.println(list);
+		if(list == null) return new ResponseEntity<List<SearchResultDto>>(list, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<List<SearchResultDto>>(list, HttpStatus.OK);
+	}
 
 }

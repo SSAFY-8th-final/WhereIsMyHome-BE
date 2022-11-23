@@ -10,6 +10,7 @@ import com.mycom.myhouse.map.dto.DongDto;
 import com.mycom.myhouse.map.dto.GugunDto;
 import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.map.dto.MapParamDto;
+import com.mycom.myhouse.map.dto.SearchResultDto;
 
 @Service
 public class MapServiceImpl implements MapService{
@@ -51,6 +52,16 @@ public class MapServiceImpl implements MapService{
 			e.printStackTrace();
 		}
 		
+		return list;
+	}
+	@Override
+	public List<SearchResultDto> houseSearchByName(String searchWord) {
+		List<SearchResultDto> list = null;
+		try {
+			list = dao.houseSearchByName(searchWord);	//limit, offset
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return list;
 	}
 	
