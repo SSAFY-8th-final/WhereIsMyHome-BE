@@ -1,5 +1,6 @@
 package com.mycom.myhouse.sale.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -28,4 +29,5 @@ public interface SaleDao {
 	SaleDto saleDetail(int no);
 	String houseSearchByAddress(HouseDto dto);
 	void houseInsert(HouseDto dto);
+	void saleUpdateMoveInDate(SaleDto dto);
 }

@@ -86,6 +86,11 @@ public class SaleController {
 		System.out.println(saleDto);
 		saleDto.setUserEmail("admin");
 		SaleResultDto saleResultDto = service.saleInsert(saleDto);
+		if(saleDto.getMoveInCode().equals("002") &&saleResultDto.getResult().equals(SUCCESS)) {
+			System.out.println("controller - saleInsert - " + saleDto.getMoveInDate().getClass().getName() );
+			System.out.println(saleDto.getMoveInDate());
+			saleResultDto = service.saleUpdateMoveInDate(saleDto.getMoveInDate());			
+		}
 		System.out.println(saleResultDto);
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);

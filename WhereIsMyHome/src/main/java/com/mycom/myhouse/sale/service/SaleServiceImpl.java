@@ -1,24 +1,17 @@
 package com.mycom.myhouse.sale.service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mycom.myhouse.event.dao.EventDao;
-import com.mycom.myhouse.event.dto.EventDto;
-import com.mycom.myhouse.event.dto.EventParamDto;
-import com.mycom.myhouse.event.dto.EventResultDto;
 import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.sale.dao.SaleDao;
 import com.mycom.myhouse.sale.dto.SaleDto;
 import com.mycom.myhouse.sale.dto.SaleParamDto;
 import com.mycom.myhouse.sale.dto.SaleResultDto;
-import com.mycom.myhouse.user.dao.UserDao;
-import com.mycom.myhouse.user.dto.UserDto;
-import com.mycom.myhouse.user.dto.UserResultDto;
 
 @Service
 public class SaleServiceImpl implements SaleService{
@@ -116,18 +109,6 @@ public class SaleServiceImpl implements SaleService{
 	public SaleResultDto saleInsert(SaleDto saleDto) {
 		SaleResultDto saleResultDto = new SaleResultDto();
 		try {
-//			if(saleDto.getMoveInCode() != "001")
-			
-			String moveInDateStr = saleDto.getMoveInDateStr();
-			if(moveInDateStr != null && moveInDateStr != "") {
-				// 포맷터
-		        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		 
-		        // 문자열 -> Date
-		        Date date = formatter.parse(moveInDateStr);
-				saleDto.setMoveInDate(date);
-			}
-			
 			dao.saleInsert(saleDto);
 			saleResultDto.setResult(SUCCESS);
 			saleResultDto.setNo(saleDto.getNo());
@@ -137,21 +118,38 @@ public class SaleServiceImpl implements SaleService{
 		}
 		return saleResultDto;
 	}
+	
+	@Override
+	public SaleResultDto saleUpdateMoveInDate(Date date) {
+		SaleResultDto saleResultDto = new SaleResultDto();
+		try {
+			SaleDto dto = new SaleDto();
+						
+			dto.setMoveInDate(date);
+			dao.saleUpdateMoveInDate(dto);
+			saleResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saleResultDto.setResult(FAIL);
+		}
+		return saleResultDto;
+	}
+	
 	@Override
 	public SaleResultDto saleUpdate(SaleDto saleDto) {
 		SaleResultDto saleResultDto = new SaleResultDto();
 		try {
 //			if(saleDto.getMoveInCode() != "001")
 			
-			String moveInDateStr = saleDto.getMoveInDateStr();
-			if(moveInDateStr != null && moveInDateStr != "") {
-				// 포맷터
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				
-				// 문자열 -> Date
-				Date date = formatter.parse(moveInDateStr);
-				saleDto.setMoveInDate(date);
-			}
+//			String moveInDateStr = saleDto.getMoveInDateStr();
+//			if(moveInDateStr != null && moveInDateStr != "") {
+//				// 포맷터
+//				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//				
+//				// 문자열 -> Date
+//				Date date = formatter.parse(moveInDateStr);
+//				saleDto.setMoveInDate(date);
+//			}
 			
 			dao.saleUpdate(saleDto);
 			saleResultDto.setResult(SUCCESS);

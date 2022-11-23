@@ -33,11 +33,13 @@
 				( dong_code, address_detail, sale_amount
 				   	, move_in_code, sale_type_code
 				   	, description, room, bathroom, floor, houseinfo_no, user_email 
-					,utility_bill, parking, direction)
+					,utility_bill, parking, direction,
+					area)
 		values 	( #{dongCode}, #{addressDetail}, #{saleAmount}
 					, #{moveInCode}, #{saleTypeCode}
 					, #{description}, #{room}, #{bathroom}, #{floor}, #{houseinfoNo}, #{userEmail}
-				,#{utilityBill}, #{parking}, #{direction} )
+				,#{utilityBill}, #{parking}, #{direction}
+				,#{area} )
 		  <selectKey keyProperty="no" resultType="Integer">
 		    select LAST_INSERT_ID()
 		  </selectKey>
@@ -48,6 +50,12 @@
 	     where 	no = #{no}
    	</delete>
    
+   	<update id="saleUpdateMoveInDate" parameterType="com.mycom.myhouse.sale.dto.SaleDto">
+		update 	housesale
+		   set 	move_in_date = #{moveInDate}
+		 where no = #{no}
+	</update>
+	
    	<update id="saleUpdate" parameterType="com.mycom.myhouse.sale.dto.SaleDto">
 		update 	housesale
 		   set 	address_detail = #{addressDetail},

@@ -1,5 +1,7 @@
 package com.mycom.myhouse.sale.service;
 
+import java.sql.Date;
+
 import com.mycom.myhouse.event.dto.EventDto;
 import com.mycom.myhouse.event.dto.EventParamDto;
 import com.mycom.myhouse.event.dto.EventResultDto;
@@ -24,4 +26,5 @@ public interface SaleService {
 
 	SaleResultDto houseSearchByAddress(HouseDto dto);
 	SaleResultDto houseInsert(HouseDto dto);
+	SaleResultDto saleUpdateMoveInDate(Date date);
 }
