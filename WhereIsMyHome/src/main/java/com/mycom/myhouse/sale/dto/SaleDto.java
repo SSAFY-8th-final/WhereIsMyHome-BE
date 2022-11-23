@@ -26,13 +26,14 @@ public class SaleDto {
 	private String room;
 	private String bathroom;
 	private String floor;
+	private String area;
 	
 	private String moveInCode;
 	private String saleTypeCode;
 	
 	private String userEmail;
 	private String houseinfoNo;
-	private String  utilityBill;
+	private String utilityBill;
 	private String parking;
 	private String direction;
 	

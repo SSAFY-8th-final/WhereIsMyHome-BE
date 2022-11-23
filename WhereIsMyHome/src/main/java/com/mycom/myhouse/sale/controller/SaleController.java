@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.sale.dto.SaleDto;
 import com.mycom.myhouse.sale.dto.SaleParamDto;
 import com.mycom.myhouse.sale.dto.SaleResultDto;
@@ -77,10 +80,13 @@ public class SaleController {
 		}
 	}
 	@PostMapping("/sales/dealer")
-	private ResponseEntity<SaleResultDto> saleInsert(SaleDto saleDto){
+	private ResponseEntity<SaleResultDto> saleInsert(@RequestBody SaleDto saleDto){
+		System.out.println("saleInsert ");
 		
-		
+		System.out.println(saleDto);
+		saleDto.setUserEmail("admin");
 		SaleResultDto saleResultDto = service.saleInsert(saleDto);
+		System.out.println(saleResultDto);
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
 		}else {
@@ -90,12 +96,33 @@ public class SaleController {
 	@PutMapping("/sales/dealer/{no}")
 	private ResponseEntity<SaleResultDto> saleUpdate(SaleDto saleDto){
 		
-		
 		SaleResultDto saleResultDto = service.saleUpdate(saleDto);
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	@PostMapping("/house")
+	private ResponseEntity<SaleResultDto> houseInsert(@RequestBody HouseDto dto){
+		
+		System.out.println("houseInsert");
+		SaleResultDto saleResultDto = service.houseInsert(dto);
+		System.out.println("saleController - houseInsert " + saleResultDto);
+		if(saleResultDto.getResult().equals(SUCCESS)) {
+			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	@PostMapping("/house/search-address")
+	private ResponseEntity<Integer> houseSearch(@RequestBody HouseDto dto){
+		System.out.println("/house/search-address" + dto);
+		SaleResultDto saleResultDto = service.houseSearchByAddress(dto);
+		if(saleResultDto.getResult().equals(SUCCESS)) {
+			return new ResponseEntity<Integer>(saleResultDto.getNo(), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Integer>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

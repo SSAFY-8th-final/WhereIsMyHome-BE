@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mycom.myhouse.event.dto.EventParamDto;
+import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.sale.dto.SaleDto;
 import com.mycom.myhouse.sale.dto.SaleParamDto;
 import com.mycom.myhouse.sale.dto.SaleResultDto;
@@ -25,4 +26,6 @@ public interface SaleDao {
 	List<SaleDto> saleListDealer(SaleParamDto saleParamDto);
 
 	SaleDto saleDetail(int no);
+	String houseSearchByAddress(HouseDto dto);
+	void houseInsert(HouseDto dto);
 }

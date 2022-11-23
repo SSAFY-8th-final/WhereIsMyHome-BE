@@ -11,6 +11,7 @@ import com.mycom.myhouse.event.dao.EventDao;
 import com.mycom.myhouse.event.dto.EventDto;
 import com.mycom.myhouse.event.dto.EventParamDto;
 import com.mycom.myhouse.event.dto.EventResultDto;
+import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.sale.dao.SaleDao;
 import com.mycom.myhouse.sale.dto.SaleDto;
 import com.mycom.myhouse.sale.dto.SaleParamDto;
@@ -153,6 +154,40 @@ public class SaleServiceImpl implements SaleService{
 			}
 			
 			dao.saleUpdate(saleDto);
+			saleResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saleResultDto.setResult(FAIL);
+		}
+		return saleResultDto;
+	}
+
+	@Override
+	public SaleResultDto houseSearchByAddress(HouseDto dto) {
+		System.out.println("saleServiceImpl - houseSearchByAddr");
+		SaleResultDto saleResultDto = new SaleResultDto();
+		try {
+			int no = -1;
+			String noStr = dao.houseSearchByAddress(dto);
+			if(noStr != null) no = Integer.parseInt(noStr);
+			
+			saleResultDto.setNo(no);
+			saleResultDto.setResult(SUCCESS);
+			System.out.println(no);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saleResultDto.setResult(FAIL);
+		}
+		return saleResultDto;
+	}
+
+	@Override
+	public SaleResultDto houseInsert(HouseDto dto) {
+		SaleResultDto saleResultDto = new SaleResultDto();
+		try {
+			dao.houseInsert(dto);
+			saleResultDto.setNo(dto.getNo());
+			System.out.println("saleServiceImpl - houseInsert " + saleResultDto);
 			saleResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();

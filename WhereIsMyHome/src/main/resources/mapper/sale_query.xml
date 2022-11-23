@@ -30,11 +30,14 @@
 	
 	<insert id="saleInsert" parameterType="com.mycom.myhouse.sale.dto.SaleDto">
 		insert 	into housesale 
-				( dong_code,address_detail, sale_amount, move_in_code, move_in_date, sale_type_code, 
-					description, room, bathroom, floor, houseinfo_no, user_email 
+				( dong_code, address_detail, sale_amount
+				   	, move_in_code, sale_type_code
+				   	, description, room, bathroom, floor, houseinfo_no, user_email 
 					,utility_bill, parking, direction)
-		values 	( #{dongCode},#{addressDetail},#{saleAmount}, #{moveInCode}, #{moveInDate}, #{saleTypeCode}, #{description}, #{room}, #{bathroom}, #{floor}, #{houseinfoNo}, #{userEmail}
-				#{utilityBill}, #{parking}, #{direction} )
+		values 	( #{dongCode}, #{addressDetail}, #{saleAmount}
+					, #{moveInCode}, #{saleTypeCode}
+					, #{description}, #{room}, #{bathroom}, #{floor}, #{houseinfoNo}, #{userEmail}
+				,#{utilityBill}, #{parking}, #{direction} )
 		  <selectKey keyProperty="no" resultType="Integer">
 		    select LAST_INSERT_ID()
 		  </selectKey>
@@ -55,5 +58,19 @@
 		   and user_email = #{userEmail}
 	</update>
 	
+	<select id="houseSearchByAddress" resultType="string" parameterType="com.mycom.myhouse.map.dto.HouseDto">
+	    select no 
+	      from houseinfo 
+	     where dong = #{dong}
+	       and jibun = #{jibun} 
+	     limit 1
+	</select>
+	<insert id="houseInsert" parameterType="com.mycom.myhouse.map.dto.HouseDto">
+		insert 	into houseinfo (dong, AptName, code, jibun, lat, lng)
+		values 	(#{dong}, #{AptName}, #{code}, #{jibun}, #{lat}, #{lng} )
+		  <selectKey keyProperty="no" resultType="Integer">
+		    select LAST_INSERT_ID()
+		  </selectKey>
+	</insert>
 	
 </mapper>
