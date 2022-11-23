@@ -62,7 +62,7 @@
 		 WHERE EVENT_KEY = #{eventKey}
 	</select>
 	
-	<insert id="eventInsert" parameterType="map">
+	<insert id="eventInsert" parameterType="map" useGeneratedKeys="true" keyProperty="eventKey">
 		insert into event (name, content, category, registerId, statusCode, startDateTime, endDateTime, registerDateTime)
 		values (#{name}, #{content}, #{category}, #{registerId}, #{statusCode}, #{startDateTime}, #{endDateTime}, now())
 	</insert>

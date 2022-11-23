@@ -1,5 +1,6 @@
 package com.mycom.myhouse.event.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,13 @@ public class EventServiceImpl implements EventService{
 		try {
 			List<EventDto> list = dao.eventList(eventParamDto);	//limit, offset
 			List<EventFileDto> fileList = dao.eventListFile(eventParamDto.getEventKey());
-			if(fileList.size() > 0) {
-				eventResultDto.getDto().setFileList(fileList);				
+			
+			for (int i = 0; i < fileList.size(); i++) {
+				List<EventFileDto> file = new ArrayList<>();
+				file.add(fileList.get(i));
+				list.get(i).setFileList(file);
 			}
+			
 			eventResultDto.setList(list);
 			
 			eventResultDto.setResult(SUCCESS);
@@ -40,7 +45,7 @@ public class EventServiceImpl implements EventService{
 		}
 		return eventResultDto;
 	}
-	
+		
 	@Override
 	public EventResultDto eventDetail(EventParamDto eventParamDto) {
 		EventResultDto eventResultDto = new EventResultDto();

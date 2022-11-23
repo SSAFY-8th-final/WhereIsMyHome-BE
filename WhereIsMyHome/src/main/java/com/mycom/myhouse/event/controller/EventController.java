@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,11 +69,14 @@ public class EventController {
 	}
 	
 	@PostMapping("/events/{eventKey}")
-	private ResponseEntity<Map<String, String>> eventAttend(@PathVariable int eventKey, UserDto user){
+	private ResponseEntity<Map<String, String>> eventAttend(@PathVariable int eventKey, @RequestBody UserDto user){
 		Map<String, String> map = new HashMap<>();
+		
+		System.out.println(user);
 		
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);
+		eventParamDto.setUserSeq(user.getUserSeq());
 		eventParamDto.setUserEmail(user.getUserEmail());
 		
 		
@@ -87,11 +91,14 @@ public class EventController {
 	}
 	
 	@DeleteMapping("/events/{eventKey}")
-	private ResponseEntity<Map<String, String>> leaveEvent(@PathVariable int eventKey, UserDto user){
+	private ResponseEntity<Map<String, String>> leaveEvent(@PathVariable int eventKey, @RequestBody UserDto user){
 		Map<String, String> map = new HashMap<>();
+		
+		System.out.println(user);
 		
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);
+		eventParamDto.setUserSeq(user.getUserSeq());
 		eventParamDto.setUserEmail(user.getUserEmail());
 		
 		
