@@ -1,6 +1,5 @@
 package com.mycom.myhouse.sale.service;
 
-import java.text.SimpleDateFormat;
 import java.sql.Date;
 import java.util.List;
 
@@ -120,13 +119,14 @@ public class SaleServiceImpl implements SaleService{
 	}
 	
 	@Override
-	public SaleResultDto saleUpdateMoveInDate(Date date) {
+	public SaleResultDto saleUpdateMoveInDate(SaleDto saleDto) {
 		SaleResultDto saleResultDto = new SaleResultDto();
 		try {
-			SaleDto dto = new SaleDto();
-						
-			dto.setMoveInDate(date);
-			dao.saleUpdateMoveInDate(dto);
+			String dateStr = saleDto.getMoveInDateStr();
+			Date date = java.sql.Date.valueOf(dateStr);
+			saleDto.setMoveInDate(date);
+			
+			dao.saleUpdateMoveInDate(saleDto);
 			saleResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,18 +139,6 @@ public class SaleServiceImpl implements SaleService{
 	public SaleResultDto saleUpdate(SaleDto saleDto) {
 		SaleResultDto saleResultDto = new SaleResultDto();
 		try {
-//			if(saleDto.getMoveInCode() != "001")
-			
-//			String moveInDateStr = saleDto.getMoveInDateStr();
-//			if(moveInDateStr != null && moveInDateStr != "") {
-//				// 포맷터
-//				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//				
-//				// 문자열 -> Date
-//				Date date = formatter.parse(moveInDateStr);
-//				saleDto.setMoveInDate(date);
-//			}
-			
 			dao.saleUpdate(saleDto);
 			saleResultDto.setResult(SUCCESS);
 		} catch (Exception e) {

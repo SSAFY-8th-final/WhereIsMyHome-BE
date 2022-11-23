@@ -60,7 +60,6 @@ public class SaleController {
 		SaleParamDto saleParamDto = new SaleParamDto();
 		saleParamDto.setUserEmail(userEmail);
 		
-		
 		SaleResultDto saleResultDto = service.saleListDealer(saleParamDto);
 		
 		if(saleResultDto.getResult().equals(SUCCESS)) {
@@ -81,17 +80,16 @@ public class SaleController {
 	}
 	@PostMapping("/sales/dealer")
 	private ResponseEntity<SaleResultDto> saleInsert(@RequestBody SaleDto saleDto){
-		System.out.println("saleInsert ");
-		
-		System.out.println(saleDto);
+		System.out.println("saleInsert " + saleDto);
+
 		saleDto.setUserEmail("admin");
+		
 		SaleResultDto saleResultDto = service.saleInsert(saleDto);
+		System.out.println(saleResultDto.getNo());
 		if(saleDto.getMoveInCode().equals("002") &&saleResultDto.getResult().equals(SUCCESS)) {
-			System.out.println("controller - saleInsert - " + saleDto.getMoveInDate().getClass().getName() );
-			System.out.println(saleDto.getMoveInDate());
-			saleResultDto = service.saleUpdateMoveInDate(saleDto.getMoveInDate());			
+			saleDto.setNo(saleResultDto.getNo());
+			saleResultDto = service.saleUpdateMoveInDate(saleDto);			
 		}
-		System.out.println(saleResultDto);
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
 		}else {
@@ -110,10 +108,7 @@ public class SaleController {
 	}
 	@PostMapping("/house")
 	private ResponseEntity<SaleResultDto> houseInsert(@RequestBody HouseDto dto){
-		
-		System.out.println("houseInsert");
 		SaleResultDto saleResultDto = service.houseInsert(dto);
-		System.out.println("saleController - houseInsert " + saleResultDto);
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
 		}else {
@@ -122,7 +117,6 @@ public class SaleController {
 	}
 	@PostMapping("/house/search-address")
 	private ResponseEntity<Integer> houseSearch(@RequestBody HouseDto dto){
-		System.out.println("/house/search-address" + dto);
 		SaleResultDto saleResultDto = service.houseSearchByAddress(dto);
 		if(saleResultDto.getResult().equals(SUCCESS)) {
 			return new ResponseEntity<Integer>(saleResultDto.getNo(), HttpStatus.OK);
