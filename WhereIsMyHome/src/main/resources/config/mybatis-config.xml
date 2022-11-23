@@ -13,6 +13,7 @@
 		<mapper resource="mapper/event_query.xml"></mapper>
 		<mapper resource="mapper/user_query.xml"></mapper>
 		<mapper resource="mapper/map_query.xml"></mapper>
+		<mapper resource="mapper/fav_query.xml"></mapper>
 
 		<mapper resource="mapper/sale_query.xml"></mapper>
 

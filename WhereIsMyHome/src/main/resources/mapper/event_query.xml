@@ -11,7 +11,8 @@
 	<select id="eventListFile" resultType="com.mycom.myhouse.event.dto.EventFileDto">
 		SELECT FILE_ID, EVENT_KEY, FILE_NAME, FILE_SIZE, FILE_CONTENT_TYPE, FILE_URL, REG_DT
 		  FROM EVENT_FILE
-		 ORDER BY FILE_ID ASC
+		 GROUP BY EVENT_KEY
+		 ORDER BY EVENT_KEY DESC
 	</select>
 	
 	<select id="eventDetail" parameterType="int" resultType="com.mycom.myhouse.event.dto.EventDto">
