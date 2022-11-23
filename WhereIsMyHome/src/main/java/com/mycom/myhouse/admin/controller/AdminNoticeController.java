@@ -19,6 +19,7 @@ import com.mycom.myhouse.admin.service.AdminNoticeService;
 import com.mycom.myhouse.notice.dto.NoticeDto;
 import com.mycom.myhouse.notice.dto.NoticeParamDto;
 import com.mycom.myhouse.notice.dto.NoticeResultDto;
+import com.mycom.myhouse.user.dto.UserDto;
 
 @RestController
 @CrossOrigin(
@@ -56,13 +57,20 @@ public class AdminNoticeController {
 	}
 	
 	@GetMapping(value="/admins/notices/{noticeId}")
-	public ResponseEntity<NoticeResultDto> noticeDetail(@PathVariable int noticeId, HttpSession session) {
+	public ResponseEntity<NoticeResultDto> noticeDetail(@PathVariable int noticeId, UserDto user, HttpSession session) {
 		// BoardParamDto 만들기
 		NoticeParamDto noticeParamDto = new NoticeParamDto();
-		noticeParamDto.setNoticeId(noticeId);;  // PathVariable로 넘어온 게시글 key
+		noticeParamDto.setNoticeId(noticeId);  // PathVariable로 넘어온 게시글 key
+		
+		System.out.println(user);
 		
 		// BoardResultDto 만들기
 		NoticeResultDto noticeResultDto = service.noticeDetail(noticeParamDto);
+		
+		if(noticeResultDto.getDto().getUserEmail().equals(user.getUserEmail()))
+			noticeResultDto.getDto().setSameUser(true);
+		else
+			noticeResultDto.getDto().setSameUser(false);
 		
 		if (noticeResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.OK);
@@ -73,13 +81,6 @@ public class AdminNoticeController {
 	
 	@PostMapping(value="/admins/notices") 
 	public ResponseEntity<NoticeResultDto> noticeInsert(@RequestBody NoticeDto dto) {
-		
-		// 로그인 구현하면 주석제거 !!
-		dto.setUserEmail("ssafy");
-//		UserDto userDto = (UserDto) session.getAttribute("userDto");
-//		dto.setRegisterId(userDto.getUserName());
-		
-		System.out.println(dto);
 		
 		NoticeResultDto noticeResultDto = service.noticeInsert(dto);
 		

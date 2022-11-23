@@ -7,7 +7,7 @@
 	</insert>
 	
 	<select id="userDetail" parameterType="string" resultType="com.mycom.myhouse.user.dto.UserDto">
-		select user_name, user_password, user_email, user_profile_image_url, user_register_date, interest_code, grade_code, token
+		select user_seq, user_name, user_password, user_email, user_profile_image_url, user_register_date, interest_code, grade_code, token
 		  from users
 		 where user_email = #{userEmail} 
 	</select>

@@ -1,9 +1,10 @@
 package com.mycom.myhouse.event.dto;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +23,8 @@ public class EventDto {
 	private String name;
 	private String content;
 	private String category;
-	private LocalDateTime startDateTime;
-	private LocalDateTime endDateTime;
+	private String startDateTime;
+	private String endDateTime;
 	private String statusCode;
 	private String registerId;
 	private LocalDateTime registerDateTime;

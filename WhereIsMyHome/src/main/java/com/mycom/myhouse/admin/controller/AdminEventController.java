@@ -62,7 +62,7 @@ public class AdminEventController {
 	}
 	
 	@GetMapping(value="/admins/events/{eventKey}")
-	public ResponseEntity<EventResultDto> eventDetail(@PathVariable int eventKey, HttpSession session) {
+	public ResponseEntity<EventResultDto> eventDetail(@PathVariable int eventKey, UserDto user) {
 		// BoardParamDto 만들기
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);  // PathVariable로 넘어온 게시글 key
@@ -70,6 +70,11 @@ public class AdminEventController {
 		// BoardResultDto 만들기
 		EventResultDto eventResultDto = service.eventDetail(eventParamDto);
 		
+		if(eventResultDto.getDto().getRegisterId().equals(user.getUserEmail()))
+			eventResultDto.getDto().setSameUser(true);
+		else
+			eventResultDto.getDto().setSameUser(false);
+			
 		if (eventResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.OK);
 		} else {
@@ -78,22 +83,16 @@ public class AdminEventController {
 	}
 	
 	@PostMapping(value="/admins/events") 
-	public ResponseEntity<EventResultDto> eventInsert(EventDto dto, MultipartHttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public ResponseEntity<EventResultDto> eventInsert(EventDto dto, UserDto user, MultipartHttpServletRequest request) {
 		
-		// 로그인 구현하면 주석제거 !!
-		dto.setRegisterId("ssafy@mail.com");
-//		UserDto userDto = (UserDto) session.getAttribute("userDto");
-//		dto.setRegisterId(userDto.getUserName());
-		
-		System.out.println(dto);
+		dto.setRegisterId(user.getUserEmail());
 		
 		EventResultDto eventResultDto = service.eventInsert(dto, request);
 		
 		if (eventResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.INTERNAL_SERVER_ERROR);			
+			return new ResponseEntity<EventResultDto>(eventResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

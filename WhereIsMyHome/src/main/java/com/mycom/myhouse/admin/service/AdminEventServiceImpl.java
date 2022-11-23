@@ -16,6 +16,7 @@ import com.mycom.myhouse.event.dto.EventDto;
 import com.mycom.myhouse.event.dto.EventFileDto;
 import com.mycom.myhouse.event.dto.EventParamDto;
 import com.mycom.myhouse.event.dto.EventResultDto;
+import com.mycom.myhouse.user.dto.UserDto;
 
 @Service
 public class AdminEventServiceImpl implements AdminEventService {
@@ -124,6 +125,13 @@ public class AdminEventServiceImpl implements AdminEventService {
 			EventDto dto = dao.eventDetail(eventParamDto);
 			List<EventFileDto> fileList = dao.eventDetailFileList(dto.getEventKey());
 			dto.setFileList(fileList);
+			
+			if(dto.getRegisterId().equals(eventParamDto.getUserEmail())) {
+				dto.setSameUser(true);
+			} else {
+				dto.setSameUser(false);
+			}
+			
 			eventResultDto.setDto(dto);
 			
 			eventResultDto.setResult(SUCCESS);
@@ -138,7 +146,6 @@ public class AdminEventServiceImpl implements AdminEventService {
 	@Override
 	public EventResultDto eventInsert(EventDto dto, MultipartHttpServletRequest request) {
 		EventResultDto eventResultDto = new EventResultDto();
-		System.out.println(dto);
 		
 		try {
 			dao.eventInsert(dto);
@@ -147,12 +154,6 @@ public class AdminEventServiceImpl implements AdminEventService {
 			if(!uploadDir.exists()) uploadDir.mkdir();  // 없으면 새로 생성
 			
 			List<MultipartFile> fileList = request.getFiles("file");
-			
-			
-			// NullPointer 예외발생 -> 트랜잭션 처리
-			// @Transactional 달기
-//			String str = null;
-//			str.length();
 			
 			for (MultipartFile partFile : fileList) {
 				int eventKey = dto.getEventKey();  // 직전 등록된 게시글의 key

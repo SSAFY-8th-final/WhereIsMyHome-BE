@@ -1,7 +1,5 @@
 package com.mycom.myhouse.notice.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mycom.myhouse.notice.dto.NoticeParamDto;
 import com.mycom.myhouse.notice.dto.NoticeResultDto;
 import com.mycom.myhouse.notice.service.NoticeService;
+import com.mycom.myhouse.user.dto.UserDto;
 
 @RestController
 @CrossOrigin(
@@ -51,12 +50,12 @@ public class NoticeController {
 	}
 	
 	@GetMapping(value="/notices/{noticeId}")
-	public ResponseEntity<NoticeResultDto> noticeDetail(@PathVariable int noticeId, HttpSession session) {
+	public ResponseEntity<NoticeResultDto> noticeDetail(@PathVariable int noticeId, UserDto user) {
 		// BoardParamDto 만들기
 		NoticeParamDto noticeParamDto = new NoticeParamDto();
 		noticeParamDto.setNoticeId(noticeId);  // PathVariable로 넘어온 게시글 key
-		// 로그인 구현 후 제거 !! -> 세션 추가
-		noticeParamDto.setUserSeq(8);
+		System.out.println(user);
+		noticeParamDto.setUserSeq(user.getUserSeq());
 		
 		// BoardResultDto 만들기
 		NoticeResultDto noticeResultDto = service.noticeDetail(noticeParamDto);

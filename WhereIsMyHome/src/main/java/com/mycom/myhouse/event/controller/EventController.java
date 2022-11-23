@@ -53,13 +53,10 @@ public class EventController {
 		}
 	}
 	@GetMapping("/events/{eventKey}")
-	private ResponseEntity<EventResultDto> eventDetail(@PathVariable int eventKey){
+	private ResponseEntity<EventResultDto> eventDetail(@PathVariable int eventKey, UserDto user){
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);
-		
-		// 로그인 추가 후 지우기 !!!!
-		eventParamDto.setUserSeq(8);
-		eventParamDto.setUserEmail("ssafy");
+		eventParamDto.setUserSeq(user.getUserSeq());
 		
 		EventResultDto eventResultDto = service.eventDetail(eventParamDto);
 		
@@ -71,14 +68,12 @@ public class EventController {
 	}
 	
 	@PostMapping("/events/{eventKey}")
-	private ResponseEntity<Map<String, String>> eventAttend(@PathVariable int eventKey, HttpSession session){
-//		UserDto userDto = (UserDto) session.getAttribute("userDto");  // 로그인 구현 후 주석 제거 !!!
+	private ResponseEntity<Map<String, String>> eventAttend(@PathVariable int eventKey, UserDto user){
 		Map<String, String> map = new HashMap<>();
 		
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);
-//		eventParamDto.setUserEmail(userDto.getUserEmail());   // 로그인 구현 후 주석 제거 !!!
-		eventParamDto.setUserEmail("ssafy");
+		eventParamDto.setUserEmail(user.getUserEmail());
 		
 		
 		EventResultDto eventResultDto = service.eventAttend(eventParamDto);
@@ -92,14 +87,12 @@ public class EventController {
 	}
 	
 	@DeleteMapping("/events/{eventKey}")
-	private ResponseEntity<Map<String, String>> leaveEvent(@PathVariable int eventKey, HttpSession session){
-//		UserDto userDto = (UserDto) session.getAttribute("userDto");  // 로그인 구현 후 주석 제거 !!!
+	private ResponseEntity<Map<String, String>> leaveEvent(@PathVariable int eventKey, UserDto user){
 		Map<String, String> map = new HashMap<>();
 		
 		EventParamDto eventParamDto = new EventParamDto();
 		eventParamDto.setEventKey(eventKey);
-//		eventParamDto.setUserEmail(userDto.getUserEmail());   // 로그인 구현 후 주석 제거 !!!
-		eventParamDto.setUserEmail("ssafy");
+		eventParamDto.setUserEmail(user.getUserEmail());
 		
 		
 		EventResultDto eventResultDto = service.leaveEvent(eventParamDto);

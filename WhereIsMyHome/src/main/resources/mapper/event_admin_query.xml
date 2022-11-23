@@ -74,11 +74,11 @@
 	
 	<update id="eventUpdate" parameterType="map">
 		UPDATE event
-		SET name = #{name}
-			content = #{content}
-			category = #{category}
-			statusCode = #{statusCode}
-			startDateTime = #{startDateTime}
+		SET name = #{name},
+			content = #{content},
+			category = #{category},
+			statusCode = #{statusCode},
+			startDateTime = #{startDateTime},
 			endDateTime = #{endDateTime}
 		WHERE eventKey = #{eventKey}
 	</update>
