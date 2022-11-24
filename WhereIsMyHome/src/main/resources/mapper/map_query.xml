@@ -9,7 +9,8 @@
 	</select>
 	
 	<select id="mapHouseList"  parameterType="com.mycom.myhouse.map.dto.MapParamDto" resultType="com.mycom.myhouse.sale.dto.SaleDto">
-	  select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room, hs.floor, hi.lat, hi.lng
+	  select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room, hs.floor, hi.lat, hi.lng,
+	  			hs.utility_bill, hs.dong_code, hi.buildYear, hs.area
 		from housesale hs join houseinfo hi
 		where hs.houseinfo_no = hi.no
 
@@ -36,7 +37,11 @@
 	    order by hi.AptName asc;
 	</select>
 	
-	
+	<select id="getUserFav" parameterType="int" resultType="int">
+		select house_no
+		from house_fav
+		where user_seq = #{userSeq}
+	</select>
 	
 	<select id="houseSearchByName" resultType="com.mycom.myhouse.map.dto.SearchResultDto" parameterType="string">
 	    select no, AptName

@@ -21,6 +21,6 @@ public interface MapDao {
 	List<SaleDto> mapHouseListNo(int no);
 	int mapHouseListNoCount(int no);
 	
-	
+	int[] getUserFav(int userSeq); // 로그인한 사용자의 찜한 매물
 
 }

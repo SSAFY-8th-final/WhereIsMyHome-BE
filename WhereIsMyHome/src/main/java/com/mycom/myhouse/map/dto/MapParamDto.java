@@ -15,4 +15,8 @@ public class MapParamDto {
 	
 	private String houseinfoNo;
 	
+	private int userSeq;
+	private String userEmail;
+	private int no;
+	
 }

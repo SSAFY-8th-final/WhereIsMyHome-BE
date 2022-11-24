@@ -29,6 +29,20 @@ public class MapServiceImpl implements MapService{
 		try {
 			List<SaleDto> list = dao.mapHouseList(mapParamDto);	//limit, offset
 			int count = dao.mapHouseListCount(mapParamDto);
+			
+			// 로그인한 사용자이면
+			if(mapParamDto.getUserSeq() != 0) {
+				// 찜한 매물 no 가져오기
+				int[] favSaleNo = dao.getUserFav(mapParamDto.getUserSeq());
+				
+				for (int i = 0; i < favSaleNo.length; i++) {
+					for (int j = 0; j < list.size(); j++) {
+						if(favSaleNo[i] == list.get(j).getNo())
+							list.get(j).setFav(true);
+					}
+				}
+			}
+			
 			saleResultDto.setList(list);
 			saleResultDto.setCount(count);
 			System.out.println(list);
