@@ -47,5 +47,5 @@ public class SaleDto {
 	private String lng;
 	
 	private boolean isFav;
-	
+	private int count; // 찜갯수
 }

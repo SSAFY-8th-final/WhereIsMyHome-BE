@@ -1,6 +1,7 @@
 package com.mycom.myhouse.sale.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,6 +203,27 @@ public class SaleServiceImpl implements SaleService{
 			dao.houseInsert(dto);
 			saleResultDto.setNo(dto.getNo());
 			System.out.println("saleServiceImpl - houseInsert " + saleResultDto);
+			saleResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saleResultDto.setResult(FAIL);
+		}
+		return saleResultDto;
+	}
+	
+	@Override
+	public SaleResultDto popularSale(String dongCode) {
+		SaleResultDto saleResultDto = new SaleResultDto();
+		try {
+			List<SaleDto> noList = dao.popularSale(dongCode);
+			List<SaleDto> list = new ArrayList<SaleDto>();
+			for (int i = 0; i < noList.size(); i++) {
+				List<SaleDto> info = dao.popularSaleInfo(noList.get(i).getNo());
+				System.out.println(info);
+				list.add(info.get(0));
+			}
+			saleResultDto.setList(list);
+			System.out.println("saleServiceImpl - popularSale " + saleResultDto);
 			saleResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
