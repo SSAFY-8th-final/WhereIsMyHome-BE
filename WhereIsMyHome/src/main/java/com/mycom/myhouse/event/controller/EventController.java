@@ -91,7 +91,7 @@ public class EventController {
 	}
 	
 	@DeleteMapping("/events/{eventKey}")
-	private ResponseEntity<Map<String, String>> leaveEvent(@PathVariable int eventKey, @RequestBody UserDto user){
+	private ResponseEntity<Map<String, String>> leaveEvent(@PathVariable int eventKey, UserDto user){
 		Map<String, String> map = new HashMap<>();
 		
 		System.out.println(user);
