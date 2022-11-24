@@ -7,11 +7,12 @@ import com.mycom.myhouse.map.dto.GugunDto;
 import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.map.dto.MapParamDto;
 import com.mycom.myhouse.map.dto.SearchResultDto;
+import com.mycom.myhouse.sale.dto.SaleResultDto;
 
 public interface MapService {
 
-	List<GugunDto> mapGugunList(String sidoCode);
-	List<DongDto> mapDongList(String gugunCode);
-	List<HouseDto> mapHouseList(MapParamDto mapParamDto);
+	SaleResultDto mapHouseList(MapParamDto mapParamDto);
 	List<SearchResultDto> houseSearchByName(String searchWord);
+	
+	SaleResultDto mapHouseListNo(int no);
 }

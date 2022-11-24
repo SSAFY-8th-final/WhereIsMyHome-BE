@@ -11,6 +11,8 @@ import com.mycom.myhouse.map.dto.GugunDto;
 import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.map.dto.MapParamDto;
 import com.mycom.myhouse.map.dto.SearchResultDto;
+import com.mycom.myhouse.sale.dto.SaleDto;
+import com.mycom.myhouse.sale.dto.SaleResultDto;
 
 @Service
 public class MapServiceImpl implements MapService{
@@ -22,37 +24,19 @@ public class MapServiceImpl implements MapService{
 	private final String FAIL = "fail";
 	
 	@Override
-	public List<GugunDto> mapGugunList(String sidoCode) {
-		List<GugunDto> list = null;
+	public SaleResultDto mapHouseList(MapParamDto mapParamDto) {
+		SaleResultDto saleResultDto = new SaleResultDto();;
 		try {
-			list = dao.mapGugunList(sidoCode);	//limit, offset
+			List<SaleDto> list = dao.mapHouseList(mapParamDto);	//limit, offset
+			int count = dao.mapHouseListCount(mapParamDto);
+			saleResultDto.setList(list);
+			saleResultDto.setCount(count);
+			System.out.println(list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return list;
-	}
-	@Override
-	public List<DongDto> mapDongList(String gugunCode) {
-		List<DongDto> list = null;
-		try {
-			list = dao.mapDongList(gugunCode);	//limit, offset
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	@Override
-	public List<HouseDto> mapHouseList(MapParamDto mapParamDto) {
-		List<HouseDto> list = null;
-		try {
-			list = dao.mapHouseList(mapParamDto);	//limit, offset
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
+		return saleResultDto;
 	}
 	@Override
 	public List<SearchResultDto> houseSearchByName(String searchWord) {
@@ -63,6 +47,26 @@ public class MapServiceImpl implements MapService{
 			e.printStackTrace();
 		}
 		return list;
+	}
+	@Override
+	public SaleResultDto mapHouseListNo(int no) {
+SaleResultDto saleResultDto = new SaleResultDto();
+		
+		try {
+			// 목록, 총건수를 가져온다.
+			List<SaleDto> list = dao.mapHouseListNo(no);
+			int count = dao.mapHouseListNoCount(no);
+			
+			saleResultDto.setList(list);
+			saleResultDto.setCount(count);
+			
+			saleResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saleResultDto.setResult(FAIL);
+		}
+		
+		return saleResultDto;
 	}
 	
 

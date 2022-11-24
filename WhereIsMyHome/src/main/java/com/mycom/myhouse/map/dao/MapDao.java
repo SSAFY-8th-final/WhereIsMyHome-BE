@@ -9,12 +9,18 @@ import com.mycom.myhouse.map.dto.GugunDto;
 import com.mycom.myhouse.map.dto.HouseDto;
 import com.mycom.myhouse.map.dto.MapParamDto;
 import com.mycom.myhouse.map.dto.SearchResultDto;
+import com.mycom.myhouse.sale.dto.SaleDto;
 
 @Mapper
 public interface MapDao {
 
-	List<GugunDto> mapGugunList(String sidoCode);
-	List<DongDto> mapDongList(String gugunCode);
-	List<HouseDto> mapHouseList(MapParamDto mapParamDto);
+	List<SaleDto> mapHouseList(MapParamDto mapParamDto);
+	int mapHouseListCount(MapParamDto mapParamDto);
+	
 	List<SearchResultDto> houseSearchByName(String searchWord);
+	List<SaleDto> mapHouseListNo(int no);
+	int mapHouseListNoCount(int no);
+	
+	
+
 }

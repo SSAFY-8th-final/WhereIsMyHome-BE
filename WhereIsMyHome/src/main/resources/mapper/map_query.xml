@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycom.myhouse.map.dao.MapDao">
-
-	<select id="mapHouseListDong"  parameterType="string" resultType="com.mycom.myhouse.map.dto.HouseDto">
-	  	select 	s.no, s.sale_amount, s.description
-			   		i.AptName, i.lat, i.lng
-		  from 	housesale s join houseinfo i
-		 where 	s.houseinfo_no = i.no
-	       and 	i.dong = #{dong} <!-- 동 이름으로 -->	
-	</select>
-	
-	<select id="mapHouseListNo"  parameterType="int" resultType="com.mycom.myhouse.map.dto.HouseDto">
-	  	select s.no, s.sale_amount, s.description
-			   i.AptName, i.lat, i.lng
-		  from housesale s join houseinfo i
-		 where s.houseinfo_no = i.no
-	       and i.no = #{no}
-	</select>
 	
 	<select id="searchHouseNo" parameterType="int" resultType="com.mycom.myhouse.map.dto.HouseDto">
 		select 	no, AptName
 		  from 	houseinfo
 		 where 	no = #{no}
 	</select>
+	
+	<select id="mapHouseList"  parameterType="com.mycom.myhouse.map.dto.MapParamDto" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+	  select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room, hs.floor, hi.lat, hi.lng
+		from housesale hs join houseinfo hi
+		where hs.houseinfo_no = hi.no
+
+	    <if test="dongCode != null and dongCode != ''">
+	    	and hs.dong_code = #{dongCode}
+	    </if>
+	    <if test="houseinfoNo != null and houseinfoNo != ''">
+	        and hs.houseinfo_no = #{houseinfoNo}
+	    </if>
+	    order by hi.AptName asc;
+	</select>
+	
+	<select id="mapHouseListCount"  parameterType="com.mycom.myhouse.map.dto.MapParamDto" resultType="int">
+	  select count(*)
+		from housesale hs join houseinfo hi
+		where hs.houseinfo_no = hi.no
+
+	    <if test="dong != null and dong != ''">
+	    	and hi.dong = #{dong}
+	    </if>
+	    <if test="houseinfoNo != null and houseinfoNo != ''">
+	        and hs.houseinfo_no = #{houseinfoNo}
+	    </if>
+	    order by hi.AptName asc;
+	</select>
+	
+	
+	
 	<select id="houseSearchByName" resultType="com.mycom.myhouse.map.dto.SearchResultDto" parameterType="string">
 	    select no, AptName
 	      from houseinfo 

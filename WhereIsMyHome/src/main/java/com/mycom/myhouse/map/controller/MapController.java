@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mycom.myhouse.event.dto.EventResultDto;
 import com.mycom.myhouse.map.dto.*;
 import com.mycom.myhouse.map.service.MapService;
+import com.mycom.myhouse.sale.dto.SaleParamDto;
+import com.mycom.myhouse.sale.dto.SaleResultDto;
 
 @RestController
 public class MapController {
@@ -24,11 +26,13 @@ public class MapController {
 	private final String FAIL = "fail";
 	
 	@GetMapping("/maps/houses") 
-	private ResponseEntity<List<HouseDto>> mapHouseList(MapParamDto mapParamDto){
-		List<HouseDto> list = service.mapHouseList(mapParamDto);
+	private ResponseEntity<SaleResultDto> mapHouseList(MapParamDto mapParamDto){
+		System.out.println("mapHouseList "+mapParamDto);
 		
-		if(list == null) return new ResponseEntity<List<HouseDto>>(list, HttpStatus.NOT_FOUND);
-		return new ResponseEntity<List<HouseDto>>(list, HttpStatus.OK);
+		SaleResultDto saleResultDto = service.mapHouseList(mapParamDto);
+		
+		if(saleResultDto == null) return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
 	}
 	@GetMapping("/maps/search/{searchWord}") 
 	private ResponseEntity<List<SearchResultDto>> houseSearchByName(@PathVariable String searchWord){
