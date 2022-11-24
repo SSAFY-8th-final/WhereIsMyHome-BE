@@ -12,10 +12,19 @@
 		where house_no = #{no} and user_seq = #{userSeq}
 	</delete>
 
-	<select id="getUserFav" parameterType="map" resultType="com.mycom.myhouse.user.dto.FavDto">
-		select house_no, user_seq
+	<select id="getUserFav" parameterType="int" resultType="int">
+		select house_no
 		from house_fav
 		where user_seq = #{userSeq}
+	</select>
+	
+	<select id="saleDetail" parameterType="int" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+		select  s.no, s.dong_code, s.post_date, s.sale_amount, s.move_in_code, s.move_in_date, s.sale_type_code, 
+		        	s.description, s.room, s.bathroom, s.floor, s.user_email , s.address_detail, s.utility_bill, s.parking, s.direction,
+		            i.dong, i.AptName, i.buildYear, i.jibun
+		  from  housesale s join houseinfo i
+		    on	s.houseinfo_no = i.no
+		 where  s.no = #{no}
 	</select>
 	
 	<select id="favListTotalCount" parameterType="map" resultType="int">

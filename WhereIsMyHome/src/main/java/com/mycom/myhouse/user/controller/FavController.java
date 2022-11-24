@@ -53,7 +53,7 @@ public class FavController {
 	}
 	
 	@GetMapping("/users/fav")
-	public ResponseEntity<FavResultDto> getUserFav(@RequestBody FavDto favDto){
+	public ResponseEntity<FavResultDto> getUserFav(FavDto favDto){
 		FavResultDto favResultDto = new FavResultDto();
 		
 		favResultDto = service.getUserFav(favDto);
