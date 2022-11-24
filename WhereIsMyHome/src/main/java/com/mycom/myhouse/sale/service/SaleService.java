@@ -22,5 +22,6 @@ public interface SaleService {
 	SaleResultDto houseSearchByAddress(HouseDto dto);
 	SaleResultDto houseInsert(HouseDto dto);
 	SaleResultDto saleUpdateMoveInDate(SaleDto saleDto);
-
+	
+	SaleResultDto popularSale(String dongCode);
 }

@@ -33,7 +33,7 @@
 	<select id="saleDetail" parameterType="int" resultType="com.mycom.myhouse.sale.dto.SaleDto">
 		select  s.no, s.dong_code, s.post_date, s.sale_amount, s.move_in_code, s.move_in_date, s.sale_type_code, 
 		        	s.description, s.room, s.bathroom, s.floor, s.user_email , s.address_detail, s.utility_bill, s.parking, s.direction,
-		            i.dong, i.AptName, i.buildYear, i.jibun
+		            i.dong, i.AptName, i.buildYear, i.jibun, i.lat, i.lng
 		  from  housesale s join houseinfo i
 		    on	s.houseinfo_no = i.no
 		 where  s.no = #{no}
@@ -97,5 +97,23 @@
 		    select LAST_INSERT_ID()
 		  </selectKey>
 	</insert>
+	
+	<select id="popularSale" parameterType="string" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+		select hs.no, count(*) count
+		from housesale hs join house_fav hf
+		on hs.no = hf.house_no
+		where dong_code = #{dongCode}
+		group by no
+		order by count desc
+		limit 5
+	</select>
+	
+	<select id="popularSaleInfo" parameterType="map" resultType="com.mycom.myhouse.sale.dto.SaleDto">
+		select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room,
+				hs.floor, hi.lat, hi.lng, hs.utility_bill, hs.dong_code, hi.buildYear, hs.area
+		from housesale hs join houseinfo hi
+		on hs.houseinfo_no = hi.no
+		where hs.no = #{no}
+	</select>
 	
 </mapper>

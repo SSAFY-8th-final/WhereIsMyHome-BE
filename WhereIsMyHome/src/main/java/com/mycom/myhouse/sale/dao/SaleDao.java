@@ -18,6 +18,8 @@ public interface SaleDao {
 	int saleListSearchWordTotalCount(SaleParamDto saleParamDto);
 	
 	int[] getUserFav(int userSeq); // 로그인한 사용자의 찜한 매물
+	List<SaleDto> popularSale(String dongCode); // 인기매물
+	List<SaleDto> popularSaleInfo(int no);
 	
 	void saleInsert(SaleDto saleDto);
 	void saleUpdate(SaleDto saleDto);

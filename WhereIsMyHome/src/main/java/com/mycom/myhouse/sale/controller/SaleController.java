@@ -55,6 +55,18 @@ public class SaleController {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/sales/popular/{dongCode}")
+	private ResponseEntity<SaleResultDto> popularSale(@PathVariable String dongCode){
+		SaleResultDto saleResultDto = service.popularSale(dongCode);
+		
+		if(saleResultDto.getResult().equals(SUCCESS)) {
+			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("/sales/dealer") 
 	private ResponseEntity<SaleResultDto> saleListDealer(SaleParamDto saleParamDto){
 	
