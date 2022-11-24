@@ -17,7 +17,9 @@ public class SaleParamDto {
 	private String dongCode;
 	private String jibun;
 	
+	private int userSeq;
 	private String userEmail;
+	private int no;
 	
 	private int limit;
 	private int offset;

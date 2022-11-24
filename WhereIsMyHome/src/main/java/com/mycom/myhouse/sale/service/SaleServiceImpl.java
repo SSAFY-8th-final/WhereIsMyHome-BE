@@ -30,6 +30,19 @@ public class SaleServiceImpl implements SaleService{
 			List<SaleDto> list = dao.saleList(saleParamDto);
 			int count = dao.saleListTotalCount(saleParamDto);
 			
+			// 로그인한 사용자이면
+			if(saleParamDto.getUserSeq() != 0) {
+				// 찜한 매물 no 가져오기
+				int[] favSaleNo = dao.getUserFav(saleParamDto.getUserSeq());
+				
+				for (int i = 0; i < favSaleNo.length; i++) {
+					for (int j = 0; j < list.size(); j++) {
+						if(favSaleNo[i] == list.get(j).getNo())
+							list.get(j).setFav(true);
+					}
+				}
+			}
+			
 			saleResultDto.setList(list);
 			saleResultDto.setCount(count);
 			
@@ -50,6 +63,19 @@ public class SaleServiceImpl implements SaleService{
 			// 목록, 총건수를 가져온다.
 			List<SaleDto> list = dao.saleListSearchWord(saleParamDto);
 			int count = dao.saleListSearchWordTotalCount(saleParamDto);
+			
+			// 로그인한 사용자이면
+			if(saleParamDto.getUserSeq() != 0) {
+				// 찜한 매물 no 가져오기
+				int[] favSaleNo = dao.getUserFav(saleParamDto.getUserSeq());
+				
+				for (int i = 0; i < favSaleNo.length; i++) {
+					for (int j = 0; j < list.size(); j++) {
+						if(favSaleNo[i] == list.get(j).getNo())
+							list.get(j).setFav(true);
+					}
+				}
+			}
 			
 			saleResultDto.setList(list);
 			saleResultDto.setCount(count);

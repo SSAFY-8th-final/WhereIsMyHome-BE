@@ -3,7 +3,8 @@
 <mapper namespace="com.mycom.myhouse.sale.dao.SaleDao">
 
 	<select id="saleList" parameterType="map" resultType="com.mycom.myhouse.sale.dto.SaleDto">
-		select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room, hs.floor, hi.lat, hi.lng
+		select hs.no, hs.houseinfo_no, hi.aptName, hs.sale_amount, hs.sale_type_code, hs.description, hs.room,
+				hs.floor, hi.lat, hi.lng, hs.utility_bill, hs.dong_code, hi.buildYear, hs.area
 		from housesale hs, houseinfo hi
 		where hs.houseinfo_no = hi.no
 		order by hi.AptName asc;
@@ -36,6 +37,12 @@
 		  from  housesale s join houseinfo i
 		    on	s.houseinfo_no = i.no
 		 where  s.no = #{no}
+	</select>
+	
+	<select id="getUserFav" parameterType="int" resultType="int">
+		select house_no
+		from house_fav
+		where user_seq = #{userSeq}
 	</select>
 	
 	<insert id="saleInsert" parameterType="com.mycom.myhouse.sale.dto.SaleDto">

@@ -17,6 +17,8 @@ public interface SaleDao {
 	List<SaleDto> saleListSearchWord(SaleParamDto saleParamDto);
 	int saleListSearchWordTotalCount(SaleParamDto saleParamDto);
 	
+	int[] getUserFav(int userSeq); // 로그인한 사용자의 찜한 매물
+	
 	void saleInsert(SaleDto saleDto);
 	void saleUpdate(SaleDto saleDto);
 	void saleDelete(int no);

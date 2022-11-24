@@ -46,4 +46,6 @@ public class SaleDto {
 	private String lat;
 	private String lng;
 	
+	private boolean isFav;
+	
 }
