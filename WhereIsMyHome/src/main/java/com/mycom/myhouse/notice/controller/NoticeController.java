@@ -32,6 +32,7 @@ public class NoticeController {
 	// limit, offset, searchWord
 	@GetMapping(value="/notices")
 	public ResponseEntity<NoticeResultDto> noticeList(NoticeParamDto noticeParamDto) {
+		System.out.println("noticeList--" + noticeParamDto);
 		
 		NoticeResultDto noticeResultDto;
 		

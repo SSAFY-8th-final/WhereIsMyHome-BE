@@ -3,7 +3,7 @@
 <mapper namespace="com.mycom.myhouse.notice.dao.NoticeDao">
 
 	<select id="noticeList" parameterType="map" resultType="com.mycom.myhouse.notice.dto.NoticeDto">
-		select notice_id, title, read_count, regDt, user_email
+		select notice_id, title, read_count, regDt, user_email, content
 		from notice
 		order by notice_id desc
 		limit #{limit} offset #{offset}

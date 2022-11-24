@@ -2,9 +2,11 @@ package com.mycom.myhouse.notice.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class NoticeParamDto {
 	// 공지사항 목록
 	private int limit;
