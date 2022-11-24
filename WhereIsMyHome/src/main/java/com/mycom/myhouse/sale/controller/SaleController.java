@@ -55,11 +55,9 @@ public class SaleController {
 			return new ResponseEntity<SaleResultDto>(saleResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@GetMapping("/sales/dealer/{userEmail}") 
-	private ResponseEntity<SaleResultDto> saleListDealer(@PathVariable String userEmail){
-		SaleParamDto saleParamDto = new SaleParamDto();
-		saleParamDto.setUserEmail(userEmail);
-		
+	@GetMapping("/sales/dealer") 
+	private ResponseEntity<SaleResultDto> saleListDealer(SaleParamDto saleParamDto){
+	
 		SaleResultDto saleResultDto = service.saleListDealer(saleParamDto);
 		
 		if(saleResultDto.getResult().equals(SUCCESS)) {

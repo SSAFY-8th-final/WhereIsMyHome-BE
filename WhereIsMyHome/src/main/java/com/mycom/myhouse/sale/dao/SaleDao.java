@@ -27,4 +27,5 @@ public interface SaleDao {
 	String houseSearchByAddress(HouseDto dto);
 	void houseInsert(HouseDto dto);
 	void saleUpdateMoveInDate(SaleDto dto);
+	int saleListDealerCount(SaleParamDto saleParamDto);
 }

@@ -14,8 +14,17 @@
 	</select>
 
 	<select id="saleListDealer" parameterType="com.mycom.myhouse.sale.dto.SaleParamDto" resultType="com.mycom.myhouse.sale.dto.SaleDto">
-		select 	no, dong_code, post_date, sale_amount, move_in_code, move_in_date, sale_type_code, 
-					description, room, bathroom, floor, houseinfo_no, user_email
+		select 	hs.no, hs.dong_code, hs.post_date, hs.sale_amount, hs.move_in_code, hs.move_in_date, hs.sale_type_code, 
+					hs.description, hs.floor, hs.houseinfo_no, 
+					hi.AptName
+		  from housesale hs, houseinfo hi
+		 where hs.houseinfo_no = hi.no	
+		   and hs.user_email = #{userEmail}
+		 order by no desc
+         limit #{limit} offset #{offset}
+	</select>
+	<select id="saleListDealerCount" parameterType="com.mycom.myhouse.sale.dto.SaleParamDto" resultType="int">
+		select 	count(*)
 		  from 	my_house.housesale
 		 where 	user_email = #{userEmail}
 	</select>

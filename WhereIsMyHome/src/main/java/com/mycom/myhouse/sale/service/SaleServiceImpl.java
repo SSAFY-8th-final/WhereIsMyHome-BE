@@ -81,8 +81,10 @@ public class SaleServiceImpl implements SaleService{
 		SaleResultDto saleResultDto = new SaleResultDto();
 		try {
 			List<SaleDto> list = dao.saleListDealer(saleParamDto);
+			int count = dao.saleListDealerCount(saleParamDto);
 			saleResultDto.setResult(SUCCESS);
 			saleResultDto.setList(list);
+			saleResultDto.setCount(count);
 		} catch (Exception e) {
 			e.printStackTrace();
 			saleResultDto.setResult(FAIL);

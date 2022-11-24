@@ -20,5 +20,6 @@ public class SaleParamDto {
 	private String userEmail;
 	
 	private int limit;
+	private int offset;
 	
 }
