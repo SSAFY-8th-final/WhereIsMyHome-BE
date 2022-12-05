@@ -91,8 +91,6 @@ public class SaleController {
 	@PostMapping("/sales/dealer")
 	private ResponseEntity<SaleResultDto> saleInsert(@RequestBody SaleDto saleDto){
 		System.out.println("saleInsert " + saleDto);
-
-		saleDto.setUserEmail("admin");
 		
 		SaleResultDto saleResultDto = service.saleInsert(saleDto);
 		System.out.println(saleResultDto.getNo());
