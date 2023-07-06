@@ -17,4 +17,4 @@
 ## 💻화면 상세
 
 
-<a href="/">더 알아보기</a>
+<a href="https://docs.google.com/presentation/d/1NqRCnrjpmG5DK7aA6edSAT1v-czZ5KO-/edit?usp=drive_link&ouid=105091304881981376349&rtpof=true&sd=true">더 알아보기(ppt)</a>
